@@ -24,12 +24,22 @@
 
 package tk.mybatis.springboot.mapper;
 
+import tk.mybatis.springboot.dto.CityDto;
 import tk.mybatis.springboot.model.City;
-import tk.mybatis.springboot.util.MyMapper;
+import tk.mybatis.springboot.util.IMapper;
+
+import java.util.List;
+import java.util.Map;
 
 /**
  * @author liuzh_3nofxnp
  * @since 2016-01-22 22:17
  */
-public interface CityMapper extends MyMapper<City> {
+public interface CityMapper extends IMapper<City> {
+
+    City selectById(Integer id);
+
+    List<City> selectLimit(Map<String, Object> params);
+
+    List<CityDto> selectDtoLimit(Map<String, Object> params);
 }

@@ -27,12 +27,13 @@ package tk.mybatis.springboot.service;
 import com.github.pagehelper.PageHelper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import tk.mybatis.springboot.dto.CityDto;
 import tk.mybatis.springboot.mapper.CityMapper;
-import tk.mybatis.springboot.mapper.CountryMapper;
 import tk.mybatis.springboot.model.City;
-import tk.mybatis.springboot.model.Country;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * @author liuzh
@@ -48,22 +49,39 @@ public class CityService {
         if (city.getPage() != null && city.getRows() != null) {
             PageHelper.startPage(city.getPage(), city.getRows(), "id");
         }
-        return cityMapper.selectAll();
+        return null;
+//        return cityMapper.selectAll();
     }
 
     public City getById(Integer id) {
-        return cityMapper.selectByPrimaryKey(id);
+//        return cityMapper.selectById(id);
+//        return cityMapper.selectByPrimaryKey(id);
+        return null;
     }
 
     public void deleteById(Integer id) {
-        cityMapper.deleteByPrimaryKey(id);
+//        cityMapper.deleteByPrimaryKey(id);
     }
 
     public void save(City country) {
         if (country.getId() != null) {
-            cityMapper.updateByPrimaryKey(country);
+//            cityMapper.updateByPrimaryKey(country);
         } else {
             cityMapper.insert(country);
         }
+    }
+
+    public List<City> select(Integer offset, Integer limit) {
+        Map<String, Object> params = new HashMap<>();
+        params.put("offset", offset);
+        params.put("limit", limit);
+        return cityMapper.selectLimit(params);
+    }
+
+    public List<CityDto> selectDto(Integer offset, Integer limit) {
+        Map<String, Object> params = new HashMap<>();
+        params.put("offset", offset);
+        params.put("limit", limit);
+        return cityMapper.selectDtoLimit(params);
     }
 }

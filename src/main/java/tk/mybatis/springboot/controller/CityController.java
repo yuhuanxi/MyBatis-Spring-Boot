@@ -26,13 +26,18 @@ package tk.mybatis.springboot.controller;
 
 import com.github.pagehelper.PageInfo;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.ModelAndView;
-import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+import tk.mybatis.springboot.dto.CityDto;
 import tk.mybatis.springboot.model.City;
 import tk.mybatis.springboot.service.CityService;
+import tk.mybatis.springboot.util.BaseController;
+import tk.mybatis.springboot.util.PagingDto;
+import tk.mybatis.springboot.util.ReturnCode;
 
 import java.util.List;
 
@@ -42,7 +47,7 @@ import java.util.List;
  */
 @RestController
 @RequestMapping("/cities")
-public class CityController {
+public class CityController extends BaseController {
 
     @Autowired
     private CityService cityService;
@@ -51,6 +56,38 @@ public class CityController {
     public PageInfo<City> getAll(City city) {
         List<City> countryList = cityService.getAll(city);
         return new PageInfo<City>(countryList);
+    }
+
+    @RequestMapping(value = "/list")
+    public BaseAjaxResult getAll(Integer curPage, Integer pageSize) {
+
+        if (true) {
+            return renderJsonFail(ReturnCode.DATA_NOT_FOUND.getCode(), ReturnCode.DATA_NOT_FOUND.getMsg());
+        }
+
+        PagingDto pagingDto = new PagingDto(curPage, pageSize);
+        List<City> countryList = cityService.select(pagingDto.getBeginInt(), pagingDto.getPageSize());
+
+        long count = countryList.size();
+        pagingDto.setCount(count);
+        return renderJsonAjaxPageResult(true, ReturnCode.SUCCESS.getCode(), ReturnCode.SUCCESS.getMsg(), countryList, pagingDto);
+
+//        return renderJsonAjaxPageResult(true, ReturnCode.SUCCESS.getCode(), ReturnCode.SUCCESS.getMsg(), countryList, pagingDto);
+//        return new PageInfo<City>(countryList);
+    }
+
+    @RequestMapping(value = "/lists")
+    public BaseAjaxResult getAllDto(Integer curPage, Integer pageSize) {
+
+        PagingDto pagingDto = new PagingDto(curPage, pageSize);
+        List<CityDto> countryList = cityService.selectDto(pagingDto.getBeginInt(), pagingDto.getPageSize());
+
+        long count = countryList.size();
+        pagingDto.setCount(count);
+        return renderJsonAjaxPageResult(true, ReturnCode.SUCCESS.getCode(), ReturnCode.SUCCESS.getMsg(), countryList, pagingDto);
+
+//        return renderJsonAjaxPageResult(true, ReturnCode.SUCCESS.getCode(), ReturnCode.SUCCESS.getMsg(), countryList, pagingDto);
+//        return new PageInfo<City>(countryList);
     }
 
     @RequestMapping(value = "/add")

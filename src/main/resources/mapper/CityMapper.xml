@@ -26,4 +26,45 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="tk.mybatis.springboot.mapper.CityMapper">
 
+    <sql id="fields">
+        `id`
+        ,`name`
+        ,`state`
+    </sql>
+
+    <resultMap id="cityDtoRm" type="CityDto">
+        <result property="addr" column="addr"/>
+        <!--<result property="id" column="id"/>-->
+        <result property="name" column="name"/>
+        <result property="state" column="state"/>
+    </resultMap>
+
+
+    <select id="selectById" resultType="City">
+        select * from city where id = #{id}
+    </select>
+
+    <select id="selectLimit" resultType="City" parameterType="map">
+        SELECT
+        <include refid="fields"/>
+        FROM
+        city
+        <if test="offset!=null">limit #{offset},#{limit}</if>
+    </select>
+
+    <!--<select id="selectDtoLimit" resultType="CityDto" parameterType="map">-->
+    <!--select * from city-->
+    <!--<if test="offset!=null">limit #{offset},#{limit}</if>-->
+    <!--</select>-->
+
+    <select id="selectDtoLimit" resultMap="cityDtoRm" parameterType="map">
+        SELECT
+        <include refid="fields"/>
+        FROM
+        city
+        <if test="offset!=null">
+            LIMIT #{offset},#{limit}
+        </if>
+    </select>
+
 </mapper>

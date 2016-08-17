@@ -51,7 +51,7 @@ public class UserInfoController {
     @RequestMapping
     public PageInfo<UserInfo> getAll(UserInfo userInfo) {
         List<UserInfo> userInfoList = userInfoService.getAll(userInfo);
-        return new PageInfo<UserInfo>(userInfoList);
+        return new PageInfo<UserInfo>(userInfoList,2);
     }
 
     @RequestMapping(value = "/add")
