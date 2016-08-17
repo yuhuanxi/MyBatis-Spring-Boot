@@ -35,7 +35,16 @@ spring:
     freemarker:
         cache: false
         request-context-attribute: request
-
+    #配置jpa,自动映射类到表
+    jpa:
+        database: MYSQL
+        show-sql: true
+        hibernate:
+            ddlAuto: create-drop
+            naming-strategy: org.hibernate.cfg.ImprovedNamingStrategy
+        properties:
+            hibernate:
+                dialect: org.hibernate.dialect.MySQL5Dialect
 #以下属性不可用
 #mybatis:
 #    pagehelper:
