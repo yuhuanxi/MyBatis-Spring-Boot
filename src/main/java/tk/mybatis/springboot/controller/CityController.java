@@ -25,6 +25,8 @@
 package tk.mybatis.springboot.controller;
 
 import com.github.pagehelper.PageInfo;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -48,6 +50,8 @@ import java.util.List;
 @RestController
 @RequestMapping("/cities")
 public class CityController extends BaseController {
+
+    private static final Logger LOG = LoggerFactory.getLogger(CityController.class);
 
     @Autowired
     private CityService cityService;
@@ -85,9 +89,21 @@ public class CityController extends BaseController {
         long count = countryList.size();
         pagingDto.setCount(count);
         return renderJsonAjaxPageResult(true, ReturnCode.SUCCESS.getCode(), ReturnCode.SUCCESS.getMsg(), countryList, pagingDto);
+    }
 
-//        return renderJsonAjaxPageResult(true, ReturnCode.SUCCESS.getCode(), ReturnCode.SUCCESS.getMsg(), countryList, pagingDto);
-//        return new PageInfo<City>(countryList);
+    @RequestMapping(value = "/new")
+    public BaseAjaxResult addCity(String name, String state) {
+
+        City city = new City();
+        city.setName(name);
+        city.setState(state);
+
+        long ret = cityService.save(city);
+        LOG.info("insert city id:{}", city.getId());
+        if (ret > 0) {
+            return renderJsonSuccessed(true, ReturnCode.SUCCESS.getCode(), ReturnCode.SUCCESS.getMsg());
+        }
+        return renderJsonFail();
     }
 
     @RequestMapping(value = "/add")

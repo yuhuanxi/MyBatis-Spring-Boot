@@ -51,6 +51,7 @@ public class MyBatisMapperScannerConfig {
         properties.setProperty("mappers", "tk.mybatis.springboot.util.MyMapper");
         properties.setProperty("notEmpty", "false");
         properties.setProperty("IDENTITY", "MYSQL");
+        properties.setProperty("cacheEnabled", "true");
         mapperScannerConfigurer.setProperties(properties);
         return mapperScannerConfigurer;
     }

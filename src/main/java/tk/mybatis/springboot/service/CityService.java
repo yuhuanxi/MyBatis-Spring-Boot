@@ -46,9 +46,9 @@ public class CityService {
     private CityMapper cityMapper;
 
     public List<City> getAll(City city) {
-        if (city.getPage() != null && city.getRows() != null) {
-            PageHelper.startPage(city.getPage(), city.getRows(), "id");
-        }
+//        if (city.getPage() != null && city.getRows() != null) {
+//            PageHelper.startPage(city.getPage(), city.getRows(), "id");
+//        }
         return null;
 //        return cityMapper.selectAll();
     }
@@ -63,12 +63,8 @@ public class CityService {
 //        cityMapper.deleteByPrimaryKey(id);
     }
 
-    public void save(City country) {
-        if (country.getId() != null) {
-//            cityMapper.updateByPrimaryKey(country);
-        } else {
-            cityMapper.insert(country);
-        }
+    public long save(City country) {
+        return cityMapper.insert(country);
     }
 
     public List<City> select(Integer offset, Integer limit) {
