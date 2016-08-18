@@ -24,6 +24,7 @@
 
 package com.ysp.ssm.demo.controller;
 
+import com.ysp.ssm.demo.conf.Config;
 import com.ysp.ssm.demo.dto.CityDto;
 import com.ysp.ssm.demo.model.City;
 import com.ysp.ssm.demo.service.CityService;
@@ -34,6 +35,7 @@ import org.apache.commons.collections4.CollectionUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -53,11 +55,27 @@ public class CityController extends BaseController {
 
     private static final Logger LOG = LoggerFactory.getLogger(CityController.class);
 
+    // 从 application.yml 中获取单个值
+    @Value("${environments.dev.url}")
+    private String url;
+
+    // application.yml 中 my.servers 的值属于 list
+    // @Value("${my.servers[0]}")
+    @Value("${my.servers[1]}")
+    private String server;
+
     @Autowired
     private CityService cityService;
 
+    @Autowired
+    private Config config;
+
     @RequestMapping
     public BaseAjaxResult getAll(Integer curPage, Integer pageSize) {
+
+        LOG.info("application.yml 中的 dev url 值为:{}", url);
+        LOG.info("application.yml 中的 servers[1] 值为:{}", server);
+        LOG.info("application.yml 中的 servers list:{}", config.getServers());
 
         long count = cityService.count();
 
@@ -128,4 +146,5 @@ public class CityController extends BaseController {
         result.put("msg", msg);
         return result;
     }
+
 }
