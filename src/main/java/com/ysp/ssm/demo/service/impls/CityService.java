@@ -22,11 +22,12 @@
  * THE SOFTWARE.
  */
 
-package com.ysp.ssm.demo.service;
+package com.ysp.ssm.demo.service.impls;
 
 import com.ysp.ssm.demo.dto.CityDto;
 import com.ysp.ssm.demo.mapper.CityMapper;
 import com.ysp.ssm.demo.model.City;
+import com.ysp.ssm.demo.service.ICityService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -39,33 +40,32 @@ import java.util.Map;
  * @since 2015-12-19 11:09
  */
 @Service
-public class CityService {
+public class CityService implements ICityService {
 
     @Autowired
     private CityMapper cityMapper;
 
-    public List<City> getAll(City city) {
-//        if (city.getPage() != null && city.getRows() != null) {
-//            PageHelper.startPage(city.getPage(), city.getRows(), "id");
-//        }
-        return null;
-//        return cityMapper.selectAll();
-    }
-
-    public City getById(Integer id) {
+    @Override
+    public City getById(Long id) {
 //        return cityMapper.selectById(id);
 //        return cityMapper.selectByPrimaryKey(id);
         return null;
     }
 
-    public void deleteById(Integer id) {
+    @Override
+    public long deleteById(Long id) {
 //        cityMapper.deleteByPrimaryKey(id);
+        Map<String, Object> params = new HashMap<>();
+        params.put("id", id);
+        return cityMapper.delete(params);
     }
 
+    @Override
     public long save(City country) {
         return cityMapper.insert(country);
     }
 
+    @Override
     public List<City> select(Integer offset, Integer limit) {
         Map<String, Object> params = new HashMap<>();
         params.put("offset", offset);
@@ -73,6 +73,7 @@ public class CityService {
         return cityMapper.selectLimit(params);
     }
 
+    @Override
     public List<CityDto> selectDto(Integer offset, Integer limit) {
         Map<String, Object> params = new HashMap<>();
         params.put("offset", offset);
@@ -80,8 +81,14 @@ public class CityService {
         return cityMapper.selectDtoLimit(params);
     }
 
+    @Override
     public long count() {
         Map<String, Object> params = new HashMap<>();
         return cityMapper.count(params);
+    }
+
+    @Override
+    public String say() {
+        return "Say Hello";
     }
 }

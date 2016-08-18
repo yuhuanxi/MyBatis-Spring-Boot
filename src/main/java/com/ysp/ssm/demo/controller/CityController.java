@@ -27,7 +27,7 @@ package com.ysp.ssm.demo.controller;
 import com.ysp.ssm.demo.conf.Config;
 import com.ysp.ssm.demo.dto.CityDto;
 import com.ysp.ssm.demo.model.City;
-import com.ysp.ssm.demo.service.CityService;
+import com.ysp.ssm.demo.service.ICityService;
 import com.ysp.ssm.demo.util.BaseController;
 import com.ysp.ssm.demo.util.PagingDto;
 import com.ysp.ssm.demo.util.ReturnCode;
@@ -64,8 +64,11 @@ public class CityController extends BaseController {
     @Value("${my.servers[1]}")
     private String server;
 
+    // 这里使用 @Resource也能达到同样效果,@AutoWired 为 Spring 提供的注解,默认按 type 装配
+    // @Resource 默认按 name 装配
+    // @Resource
     @Autowired
-    private CityService cityService;
+    private ICityService cityService;
 
     @Autowired
     private Config config;
@@ -76,7 +79,7 @@ public class CityController extends BaseController {
         LOG.info("application.yml 中的 dev url 值为:{}", url);
         LOG.info("application.yml 中的 servers[1] 值为:{}", server);
         LOG.info("application.yml 中的 servers list:{}", config.getServers());
-
+        LOG.info("say hello:{}", cityService.say());
         long count = cityService.count();
 
         if (count > 0) {
@@ -123,14 +126,14 @@ public class CityController extends BaseController {
     }
 
     @RequestMapping(value = "/view/{id}")
-    public City view(@PathVariable Integer id) {
+    public City view(@PathVariable Long id) {
         ModelAndView result = new ModelAndView();
         City city = cityService.getById(id);
         return city;
     }
 
     @RequestMapping(value = "/delete/{id}")
-    public ModelMap delete(@PathVariable Integer id) {
+    public ModelMap delete(@PathVariable Long id) {
         ModelMap result = new ModelMap();
         cityService.deleteById(id);
         result.put("msg", "删除成功!");
