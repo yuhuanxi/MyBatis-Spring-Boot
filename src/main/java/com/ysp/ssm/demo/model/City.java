@@ -26,14 +26,19 @@ package com.ysp.ssm.demo.model;
 
 import com.ysp.ssm.demo.common.BasicModel;
 
+import javax.persistence.Column;
+
 /**
  * @author liuzh_3nofxnp
  * @since 2016-01-22 22:16
  */
+//@Entity(name = "city")
 public class City extends BasicModel {
 
+    @Column(length = 5, nullable = false)
     private String name;
 
+    @Column(nullable = false)
     private String state;
 
     public String getName() {
@@ -52,4 +57,11 @@ public class City extends BasicModel {
         this.state = state;
     }
 
+    public City(String name, String state) {
+        this.name = name;
+        this.state = state;
+    }
+
+    public City() {
+    }
 }

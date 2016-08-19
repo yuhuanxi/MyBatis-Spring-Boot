@@ -108,9 +108,7 @@ public class CityController extends BaseController {
     @RequestMapping(value = "/new")
     public BaseAjaxResult addCity(String name, String state) {
 
-        City city = new City();
-        city.setName(name);
-        city.setState(state);
+        City city = new City(name, state);
 
         long ret = cityService.save(city);
         LOG.info("insert city id:{}", city.getId());

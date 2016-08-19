@@ -30,6 +30,7 @@ import com.ysp.ssm.demo.model.City;
 import com.ysp.ssm.demo.service.ICityService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.HashMap;
 import java.util.List;
@@ -61,8 +62,18 @@ public class CityService implements ICityService {
     }
 
     @Override
+    @Transactional
     public long save(City country) {
-        return cityMapper.insert(country);
+        cityMapper.insert(new City("AA", "AA"));
+        cityMapper.insert(new City("BB", "BB"));
+        cityMapper.insert(new City("CC", "AA"));
+        cityMapper.insert(new City("DD", "AA"));
+        cityMapper.insert(new City("EE", "AA"));
+        cityMapper.insert(new City("FFFFFFFF", "AA"));
+        cityMapper.insert(new City("GG", "AA"));
+        cityMapper.insert(new City("HH", "AA"));
+        cityMapper.insert(new City("JJ", "AA"));
+        return 1;
     }
 
     @Override
