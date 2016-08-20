@@ -24,6 +24,7 @@
 
 package com.ysp.ssm.demo.mapper;
 
+import com.ysp.ssm.demo.conf.ProdRepository;
 import com.ysp.ssm.demo.dto.CityDto;
 import com.ysp.ssm.demo.model.City;
 import com.ysp.ssm.demo.util.IMapper;
@@ -35,7 +36,9 @@ import java.util.Map;
  * @author liuzh_3nofxnp
  * @since 2016-01-22 22:17
  */
-public interface CityMapper extends IMapper<City> {
+//@Mapper
+@ProdRepository
+public interface ICityMapper extends IMapper<City> {
 
     City selectById(Integer id);
 

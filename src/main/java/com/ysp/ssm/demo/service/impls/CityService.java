@@ -25,12 +25,11 @@
 package com.ysp.ssm.demo.service.impls;
 
 import com.ysp.ssm.demo.dto.CityDto;
-import com.ysp.ssm.demo.mapper.CityMapper;
+import com.ysp.ssm.demo.mapper.ICityMapper;
 import com.ysp.ssm.demo.model.City;
 import com.ysp.ssm.demo.service.ICityService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 import java.util.HashMap;
 import java.util.List;
@@ -44,7 +43,7 @@ import java.util.Map;
 public class CityService implements ICityService {
 
     @Autowired
-    private CityMapper cityMapper;
+    private ICityMapper cityMapper;
 
     @Override
     public City getById(Long id) {
@@ -62,7 +61,6 @@ public class CityService implements ICityService {
     }
 
     @Override
-    @Transactional
     public long save(City country) {
         cityMapper.insert(new City("AA", "AA"));
         cityMapper.insert(new City("BB", "BB"));

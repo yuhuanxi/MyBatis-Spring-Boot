@@ -26,12 +26,16 @@ package com.ysp.ssm.demo.conf;
 
 import org.apache.ibatis.session.SqlSessionFactory;
 import org.mybatis.spring.SqlSessionFactoryBean;
-import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.boot.autoconfigure.jdbc.DataSourceBuilder;
+import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Primary;
 import org.springframework.core.io.support.PathMatchingResourcePatternResolver;
 import org.springframework.core.io.support.ResourcePatternResolver;
+import org.springframework.data.transaction.ChainedTransactionManager;
 import org.springframework.jdbc.datasource.DataSourceTransactionManager;
 import org.springframework.transaction.PlatformTransactionManager;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
@@ -50,13 +54,36 @@ import java.sql.SQLException;
 @EnableTransactionManagement
 public class MyBatisConfig implements TransactionManagementConfigurer {
 
-    @Autowired
-    DataSource dataSource;
+    @Bean(name = "devDataSource")
+    @Qualifier("devDataSource")
+//    @Primary
+    @ConfigurationProperties(prefix = "spring.datasource.dev")
+    public DataSource devDataSource() {
+        return DataSourceBuilder.create().build();
+    }
 
-    @Bean(name = "sqlSessionFactory")
-    public SqlSessionFactory sqlSessionFactoryBean() throws SQLException {
+    @Bean(name = "prodDataSource")
+    @Qualifier("prodDataSource")
+    @Primary
+    @ConfigurationProperties(prefix = "spring.datasource.prod")
+    public DataSource prodDataSource() {
+        return DataSourceBuilder.create().build();
+    }
+
+
+    @Autowired
+    @Qualifier("devDataSource")
+    DataSource devDataSource;
+
+    @Autowired
+    @Qualifier("prodDataSource")
+    DataSource prodDataSource;
+
+    @Bean(name = "devSqlSessionFactory")
+    public SqlSessionFactory devSqlSessionFactoryBean() throws SQLException {
         SqlSessionFactoryBean bean = new SqlSessionFactoryBean();
-        bean.setDataSource(dataSource);
+        bean.setDataSource(devDataSource);
+        System.out.println(devDataSource.getConnection().getMetaData().getURL());
         bean.setTypeAliasesPackage("com.ysp.ssm.demo.model,com.ysp.ssm.demo.dto");
         ResourcePatternResolver resolver = new PathMatchingResourcePatternResolver();
         try {
@@ -68,14 +95,32 @@ public class MyBatisConfig implements TransactionManagementConfigurer {
         }
     }
 
-    @Bean
-    public SqlSessionTemplate sqlSessionTemplate(SqlSessionFactory sqlSessionFactory) {
-        return new SqlSessionTemplate(sqlSessionFactory);
+    @Bean(name = "prodSqlSessionFactory")
+    public SqlSessionFactory prodSqlSessionFactoryBean() throws SQLException {
+        SqlSessionFactoryBean bean = new SqlSessionFactoryBean();
+        bean.setDataSource(prodDataSource);
+        System.out.println(prodDataSource.getConnection().getMetaData().getURL());
+        bean.setTypeAliasesPackage("com.ysp.ssm.demo.model,com.ysp.ssm.demo.dto");
+        ResourcePatternResolver resolver = new PathMatchingResourcePatternResolver();
+        try {
+            bean.setMapperLocations(resolver.getResources("classpath:mapper/*.xml"));
+            return bean.getObject();
+        } catch (Exception e) {
+            e.printStackTrace();
+            throw new RuntimeException(e);
+        }
     }
 
+    /**
+     * Transaction 相关配置
+     * 因为有两个数据源，所有使用ChainedTransactionManager把两个DataSourceTransactionManager包括在一起。
+     */
     @Bean
     @Override
     public PlatformTransactionManager annotationDrivenTransactionManager() {
-        return new DataSourceTransactionManager(dataSource);
+        DataSourceTransactionManager dev = new DataSourceTransactionManager(devDataSource);
+        DataSourceTransactionManager prod = new DataSourceTransactionManager(prodDataSource);
+        ChainedTransactionManager ctm = new ChainedTransactionManager(dev, prod);
+        return ctm;
     }
 }

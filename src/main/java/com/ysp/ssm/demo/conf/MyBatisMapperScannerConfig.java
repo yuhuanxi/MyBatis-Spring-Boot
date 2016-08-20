@@ -42,10 +42,27 @@ import java.util.Properties;
 @AutoConfigureAfter(MyBatisConfig.class)
 public class MyBatisMapperScannerConfig {
 
+    //    @Bean
     @Bean
-    public MapperScannerConfigurer mapperScannerConfigurer() {
+    public MapperScannerConfigurer devMapperScannerConfigurer() {
         MapperScannerConfigurer mapperScannerConfigurer = new MapperScannerConfigurer();
-        mapperScannerConfigurer.setSqlSessionFactoryBeanName("sqlSessionFactory");
+        mapperScannerConfigurer.setSqlSessionFactoryBeanName("devSqlSessionFactory");
+        mapperScannerConfigurer.setAnnotationClass(DevRepository.class);
+        mapperScannerConfigurer.setBasePackage("com.ysp.ssm.demo.mapper");
+        Properties properties = new Properties();
+        properties.setProperty("mappers", "com.ysp.ssm.demo.util.MyMapper");
+        properties.setProperty("notEmpty", "false");
+        properties.setProperty("IDENTITY", "MYSQL");
+        properties.setProperty("cacheEnabled", "true");
+        mapperScannerConfigurer.setProperties(properties);
+        return mapperScannerConfigurer;
+    }
+
+    @Bean
+    public MapperScannerConfigurer prodMapperScannerConfigurer() {
+        MapperScannerConfigurer mapperScannerConfigurer = new MapperScannerConfigurer();
+        mapperScannerConfigurer.setSqlSessionFactoryBeanName("prodSqlSessionFactory");
+        mapperScannerConfigurer.setAnnotationClass(ProdRepository.class);
         mapperScannerConfigurer.setBasePackage("com.ysp.ssm.demo.mapper");
         Properties properties = new Properties();
         properties.setProperty("mappers", "com.ysp.ssm.demo.util.MyMapper");
