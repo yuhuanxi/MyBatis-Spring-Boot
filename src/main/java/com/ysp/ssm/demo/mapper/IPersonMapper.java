@@ -7,6 +7,7 @@ import com.ysp.ssm.demo.util.IMapper;
 /**
  * Created by yuhuanxi on 16/8/21.
  */
+// 使用测试环境数据源
 @DevRepository
 public interface IPersonMapper extends IMapper<Person> {
 }

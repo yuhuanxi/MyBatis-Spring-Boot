@@ -54,36 +54,33 @@ import java.sql.SQLException;
 @EnableTransactionManagement
 public class MyBatisConfig implements TransactionManagementConfigurer {
 
+    // 配置数据源
     @Bean(name = "devDataSource")
-    @Qualifier("devDataSource")
-//    @Primary
     @ConfigurationProperties(prefix = "spring.datasource.dev")
     public DataSource devDataSource() {
         return DataSourceBuilder.create().build();
     }
 
     @Bean(name = "prodDataSource")
-    @Qualifier("prodDataSource")
-    @Primary
+    @Primary // 在配置多个数据源时,一定要加上该注解
     @ConfigurationProperties(prefix = "spring.datasource.prod")
     public DataSource prodDataSource() {
         return DataSourceBuilder.create().build();
     }
 
-
     @Autowired
     @Qualifier("devDataSource")
-    DataSource devDataSource;
+    DataSource devDataSource;   //结合 Qualifier 注解,让其按名称来匹配
 
     @Autowired
     @Qualifier("prodDataSource")
     DataSource prodDataSource;
 
+    // 配置 sqlSessionFactory
     @Bean(name = "devSqlSessionFactory")
     public SqlSessionFactory devSqlSessionFactoryBean() throws SQLException {
         SqlSessionFactoryBean bean = new SqlSessionFactoryBean();
         bean.setDataSource(devDataSource);
-        System.out.println(devDataSource.getConnection().getMetaData().getURL());
         bean.setTypeAliasesPackage("com.ysp.ssm.demo.model,com.ysp.ssm.demo.dto");
         ResourcePatternResolver resolver = new PathMatchingResourcePatternResolver();
         try {
@@ -99,7 +96,6 @@ public class MyBatisConfig implements TransactionManagementConfigurer {
     public SqlSessionFactory prodSqlSessionFactoryBean() throws SQLException {
         SqlSessionFactoryBean bean = new SqlSessionFactoryBean();
         bean.setDataSource(prodDataSource);
-        System.out.println(prodDataSource.getConnection().getMetaData().getURL());
         bean.setTypeAliasesPackage("com.ysp.ssm.demo.model,com.ysp.ssm.demo.dto");
         ResourcePatternResolver resolver = new PathMatchingResourcePatternResolver();
         try {

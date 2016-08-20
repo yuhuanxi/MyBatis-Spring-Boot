@@ -3,12 +3,11 @@ package com.ysp.ssm.demo.model;
 import com.ysp.ssm.demo.common.BasicModel;
 
 import javax.persistence.Column;
-import javax.persistence.Entity;
 
 /**
  * Created by yuhuanxi on 16/8/17.
  */
-@Entity(name = "person")
+//@Entity(name = "person")
 public class Person extends BasicModel {
 
     @Column(name = "name")
