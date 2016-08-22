@@ -32,8 +32,8 @@ import com.ysp.ssm.demo.util.BaseController;
 import com.ysp.ssm.demo.util.PagingDto;
 import com.ysp.ssm.demo.util.ReturnCode;
 import org.apache.commons.collections4.CollectionUtils;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.ui.ModelMap;
@@ -53,7 +53,7 @@ import java.util.List;
 @RequestMapping("/cities")
 public class CityController extends BaseController {
 
-    private static final Logger LOG = LoggerFactory.getLogger(CityController.class);
+    private static final Logger LOG = LogManager.getLogger(CityController.class);
 
     // 从 application.yml 中获取单个值
     @Value("${environments.dev.url}")
@@ -80,6 +80,7 @@ public class CityController extends BaseController {
         LOG.info("application.yml 中的 servers[1] 值为:{}", server);
         LOG.info("application.yml 中的 servers list:{}", config.getServers());
         LOG.info("say hello:{}", cityService.say());
+
         long count = cityService.count();
 
         if (count > 0) {
@@ -87,7 +88,6 @@ public class CityController extends BaseController {
             pagingDto.setCount(count);
 
             List<City> countryLists = cityService.select(pagingDto.getBeginInt(), pagingDto.getPageSize());
-
             if (CollectionUtils.isNotEmpty(countryLists))
                 return renderJsonAjaxPageResult(true, ReturnCode.SUCCESS.getCode(), ReturnCode.SUCCESS.getMsg(), countryLists, pagingDto);
         }

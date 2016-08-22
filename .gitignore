@@ -12,3 +12,6 @@ target/
 
 # jrebel #
 src/main/resources/rebel.xml
+logs-my-spring-boot.log
+logs/
+src/test/java/tk/

@@ -3,8 +3,9 @@ server:
     context-path: #/liuzh/
 
 logging:
-    level:
-        tk.mybatis: DEBUG
+#    level:
+#        tk.mybatis: DEBUG
+    config: classpath:log4j2.yml
 
 environments:
     dev:
@@ -79,6 +80,8 @@ spring:
         properties:
             hibernate:
                 dialect: org.hibernate.dialect.MySQL5Dialect
+    output:
+        ansi: enabled
 #以下属性不可用
 #mybatis:
 #    pagehelper:
