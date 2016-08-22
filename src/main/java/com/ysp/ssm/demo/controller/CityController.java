@@ -80,7 +80,7 @@ public class CityController extends BaseController {
         LOG.info("application.yml 中的 servers[1] 值为:{}", server);
         LOG.info("application.yml 中的 servers list:{}", config.getServers());
         LOG.info("say hello:{}", cityService.say());
-
+        System.out.println(config.getServers());
         long count = cityService.count();
 
         if (count > 0) {

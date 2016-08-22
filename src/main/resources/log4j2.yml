@@ -6,7 +6,7 @@ Configuration:
       #测试：-Dlog.level.console=warn -Dlog.level.xjj=trace
       #生产：-Dlog.level.console=warn -Dlog.level.xjj=info
       - name: log.level.console
-        value: info
+        value: trace
       - name: log.level.ysp # 为ysp配置特殊的log级别,方便调试
         value: info
       - name: log.path
@@ -45,7 +45,7 @@ Configuration:
         - ref: ROLLING_FILE
     # 包配置特殊的Log级别，方便调试
     Logger:
-          - name: com.ysp.ssm.demo.controller # 为com.ysp.ssm.demo.controller,定义了后,则只会打印controller中的log
+          - name: com.ysp # 为com.ysp.ssm.demo.controller,定义了后,则只会打印controller中的log
             additivity: false # 此处标记为false,则控制台不会输出,只会打印在文件里
             level: ${sys:log.level.ysp}
             AppenderRef:

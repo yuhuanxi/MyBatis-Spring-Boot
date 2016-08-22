@@ -2,11 +2,11 @@ server:
     port: 8080
     context-path: #/liuzh/
 
+# 配置log
 logging:
-#    level:
-#        tk.mybatis: DEBUG
     config: classpath:log4j2.yml
 
+# 测试数据(测试从application.yml中获取数据)
 environments:
     dev:
         url: http://dev.bar.com
@@ -19,8 +19,11 @@ my:
        - dev.bar.com
        - foo.bar.com
 
+# spring配置
 spring:
+    # 数据源配置
     datasource:
+        # 开发环境
         dev:
             name: test
             url: jdbc:mysql://127.0.0.1:3306/test?useSSL=false&characterEncoding=UTF8&useUnicode=true
@@ -42,6 +45,7 @@ spring:
             testOnReturn: false
             poolPreparedStatements: true
             maxOpenPreparedStatements: 20
+        # 生产环境
         prod:
             name: test
             url: jdbc:mysql://127.0.0.1:3306/test1?useSSL=false&characterEncoding=UTF8&useUnicode=true
