@@ -29,8 +29,6 @@ public interface ITipOffService {
 
     /**
      * 举报接口
-     * <p>
-     * 用于Form表单中
      */
     @Multipart
     @POST("/lianzai/TipOffCtrl/tipOff")

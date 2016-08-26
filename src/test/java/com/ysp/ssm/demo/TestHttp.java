@@ -25,6 +25,7 @@ public class TestHttp {
 
     public static void main(String[] args) throws IOException, URISyntaxException {
         asyncTest();
+        System.out.println("helloworld");
     }
 
     /**
@@ -90,8 +91,10 @@ public class TestHttp {
             public void onResponse(Call<ReturnResult> call, Response<ReturnResult> response) {
                 if (response.code() == 200) {
                     ReturnResult body = response.body();
-                    if (body != null)
+                    if (body != null) {
                         LOG.info("body:{}", body);
+                        sayHello();
+                    }
                 }
             }
 
@@ -100,6 +103,9 @@ public class TestHttp {
                 LOG.info("on failure");
             }
         });
+    }
 
+    private static void sayHello() {
+        System.out.println("hello world");
     }
 }
