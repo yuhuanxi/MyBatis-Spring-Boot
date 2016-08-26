@@ -56,14 +56,14 @@ public class MyBatisConfig implements TransactionManagementConfigurer {
 
     // 配置数据源
     @Bean(name = "devDataSource")
-    @ConfigurationProperties(prefix = "spring.datasource.dev")
+    @ConfigurationProperties(prefix = "spring.datasource.dev", locations = "classpath:/datasource.yml")
     public DataSource devDataSource() {
         return DataSourceBuilder.create().build();
     }
 
     @Bean(name = "prodDataSource")
     @Primary // 在配置多个数据源时,一定要加上该注解
-    @ConfigurationProperties(prefix = "spring.datasource.prod")
+    @ConfigurationProperties(prefix = "spring.datasource.prod", locations = "classpath:/datasource.yml")
     public DataSource prodDataSource() {
         return DataSourceBuilder.create().build();
     }
@@ -116,7 +116,6 @@ public class MyBatisConfig implements TransactionManagementConfigurer {
     public PlatformTransactionManager annotationDrivenTransactionManager() {
         DataSourceTransactionManager dev = new DataSourceTransactionManager(devDataSource);
         DataSourceTransactionManager prod = new DataSourceTransactionManager(prodDataSource);
-        ChainedTransactionManager ctm = new ChainedTransactionManager(dev, prod);
-        return ctm;
+        return new ChainedTransactionManager(dev, prod);
     }
 }

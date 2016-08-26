@@ -42,7 +42,11 @@ import java.util.Properties;
 @AutoConfigureAfter(MyBatisConfig.class)
 public class MyBatisMapperScannerConfig {
 
-    // 开发环境数据源
+    /**
+     * 开发环境数据源
+     *
+     * @return 返回开发环境 mybatis 的配置信息
+     */
     @Bean
     public MapperScannerConfigurer devMapperScannerConfigurer() {
         MapperScannerConfigurer mapperScannerConfigurer = new MapperScannerConfigurer();
@@ -58,7 +62,11 @@ public class MyBatisMapperScannerConfig {
         return mapperScannerConfigurer;
     }
 
-    // 生产环境数据源
+    /**
+     * 生产环境数据源
+     *
+     * @return 返回生产环境 mybatis 的配置信息
+     */
     @Bean
     public MapperScannerConfigurer prodMapperScannerConfigurer() {
         MapperScannerConfigurer mapperScannerConfigurer = new MapperScannerConfigurer();
@@ -74,7 +82,11 @@ public class MyBatisMapperScannerConfig {
         return mapperScannerConfigurer;
     }
 
-    // 默认为开发环境数据源
+    /**
+     * 默认不配置注解则为开发环境数据源
+     *
+     * @return 返回默认的开发环境 mybatis 配置信息
+     */
     @Bean
     public MapperScannerConfigurer defaultMapperScannerConfigurer() {
         MapperScannerConfigurer mapperScannerConfigurer = new MapperScannerConfigurer();
