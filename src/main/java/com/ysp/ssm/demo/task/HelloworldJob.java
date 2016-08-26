@@ -8,8 +8,6 @@ import org.quartz.JobExecutionContext;
 import org.quartz.JobExecutionException;
 import org.springframework.scheduling.quartz.QuartzJobBean;
 
-//@PersistJobDataAfterExecution
-//@DisallowConcurrentExecution
 public class HelloworldJob extends QuartzJobBean {
 
     HelloworldTask htask;
