@@ -29,8 +29,10 @@ public class QuartzConfiguration {
     public SchedulerFactoryBean schedulerFactoryBean() {
         SchedulerFactoryBean scheduler = new SchedulerFactoryBean();
         //scheduler.setOverwriteExistingJobs(true);
-        scheduler.setTriggers(cronTriggerFactoryBean().getObject(), cronTriggerFactoryBean2().getObject());
-        scheduler.setJobDetails(jobDetailFactoryBean().getObject(), jobDetailFactoryBean2().getObject());
+//        scheduler.setTriggers(cronTriggerFactoryBean().getObject(), cronTriggerFactoryBean2().getObject());
+        scheduler.setTriggers(htask.cronTriggerFactoryBean.getObject(), cronTriggerFactoryBean2().getObject());
+//        scheduler.setJobDetails(jobDetailFactoryBean().getObject(), jobDetailFactoryBean2().getObject());
+        scheduler.setJobDetails(htask.jobDetailFactoryBean.getObject(), jobDetailFactoryBean2().getObject());
         return scheduler;
     }
 
@@ -41,15 +43,15 @@ public class QuartzConfiguration {
      *
      * @return
      */
-    @Bean
-    public CronTriggerFactoryBean cronTriggerFactoryBean() {
-        CronTriggerFactoryBean trigger = new CronTriggerFactoryBean();
-        trigger.setJobDetail(jobDetailFactoryBean().getObject());
-        trigger.setStartDelay(3000);
-        // TODO 该表达式可从数据库或者配置文件中获取
-        trigger.setCronExpression("0/5 * * * * ?");
-        return trigger;
-    }
+//    @Bean
+//    public CronTriggerFactoryBean cronTriggerFactoryBean() {
+//        CronTriggerFactoryBean trigger = new CronTriggerFactoryBean();
+//        trigger.setJobDetail(jobDetailFactoryBean().getObject());
+//        trigger.setStartDelay(3000);
+//        // TODO 该表达式可从数据库或者配置文件中获取
+//        trigger.setCronExpression("0/5 * * * * ?");
+//        return trigger;
+//    }
 
     /**
      * 触发器 2
@@ -73,19 +75,19 @@ public class QuartzConfiguration {
      *
      * @return
      */
-    @Bean
-    public JobDetailFactoryBean jobDetailFactoryBean() {
-        JobDetailFactoryBean jobDetail = new JobDetailFactoryBean();
-        jobDetail.setJobClass(HelloworldJob.class);
-
-        // bring real htask
-        Map<String, Object> map = new HashMap<String, Object>();
-        map.put("htask", htask);
-        jobDetail.setJobDataAsMap(map);
-        jobDetail.setDurability(true);
-        jobDetail.setName("helloworld");
-        return jobDetail;
-    }
+//    @Bean
+//    public JobDetailFactoryBean jobDetailFactoryBean() {
+//        JobDetailFactoryBean jobDetail = new JobDetailFactoryBean();
+//        jobDetail.setJobClass(HelloworldJob.class);
+//
+//        // bring real htask
+//        Map<String, Object> map = new HashMap<String, Object>();
+//        map.put("htask", htask);
+//        jobDetail.setJobDataAsMap(map);
+//        jobDetail.setDurability(true);
+//        jobDetail.setName("helloworld");
+//        return jobDetail;
+//    }
 
     /**
      * jobDetail 2
