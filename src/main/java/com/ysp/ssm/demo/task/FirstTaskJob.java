@@ -9,14 +9,14 @@ import org.springframework.scheduling.quartz.QuartzJobBean;
  */
 public class FirstTaskJob extends QuartzJobBean {
 
-    FirstTask ftask;
+    FirstTask firstTask;
 
-    public void setFtask(FirstTask ftask) {
-        this.ftask = ftask;
+    public void setFirstTask(FirstTask firstTask) {
+        this.firstTask = firstTask;
     }
 
     @Override
     protected void executeInternal(JobExecutionContext jobExecutionContext) throws JobExecutionException {
-        ftask.print();
+        firstTask.print();
     }
 }

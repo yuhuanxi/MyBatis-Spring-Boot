@@ -23,14 +23,14 @@ public class QuartzConfiguration {
     /**
      * 注册 scheduled
      *
-     * @return
+     * @return 返回 SchedulerFactoryBean
      */
     @Bean
     public SchedulerFactoryBean schedulerFactoryBean() {
         SchedulerFactoryBean scheduler = new SchedulerFactoryBean();
         scheduler.setOverwriteExistingJobs(true);
-        scheduler.setTriggers(firstTask.firstCronTriggerFactoryBean.getObject(), secondTask.cronTriggerFactoryBean.getObject());
-        scheduler.setJobDetails(firstTask.firstJobDetailFactoryBean.getObject(), secondTask.jobDetailFactoryBean.getObject());
+        scheduler.setTriggers(firstTask.firstCronTriggerFactoryBean.getObject(), secondTask.secondCronTriggerFactoryBean.getObject());
+        scheduler.setJobDetails(firstTask.firstJobDetailFactoryBean.getObject(), secondTask.secondJobDetailFactoryBean.getObject());
         return scheduler;
     }
 

@@ -7,6 +7,24 @@
         person
     </sql>
 
+    <sql id="fields">
+        `id`
+        ,`name`
+        ,`age`
+        ,`address`
+        ,`created_ts`
+        ,`updated_ts`
+    </sql>
+
+    <resultMap id="PersonRm" type="Person">
+        <result property="address" column="address"/>
+        <result property="id" column="id"/>
+        <result property="name" column="name"/>
+        <result property="age" column="age"/>
+        <result property="createdTs" column="created_ts"/>
+        <result property="updatedTs" column="updated_ts"/>
+    </resultMap>
+
     <!-- 插入 -->
     <insert id="insert" parameterType="Person" useGeneratedKeys="true" keyProperty="id">
         INSERT INTO
@@ -30,5 +48,16 @@
         FROM
         person
     </select>
+
+    <select id="selectById" resultMap="PersonRm">
+        SELECT
+        <include refid="fields"/>
+        FROM
+        person
+        <where>
+            <if test="value != null">id = #{id}</if>
+        </where>
+    </select>
+
 
 </mapper>

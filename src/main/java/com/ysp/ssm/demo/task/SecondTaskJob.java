@@ -10,15 +10,15 @@ import org.springframework.scheduling.quartz.QuartzJobBean;
 
 public class SecondTaskJob extends QuartzJobBean {
 
-    SecondTask htask;
+    SecondTask secondTask;
 
-    public void setHtask(SecondTask task) {
-        this.htask = task;
+    public void setSecondTask(SecondTask task) {
+        this.secondTask = task;
     }
 
     @Override
     protected void executeInternal(JobExecutionContext context) throws JobExecutionException {
-        htask.print();
+        secondTask.print();
     }
 
 }

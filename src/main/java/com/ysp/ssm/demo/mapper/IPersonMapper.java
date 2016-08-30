@@ -10,4 +10,6 @@ import com.ysp.ssm.demo.util.IMapper;
 // 使用测试环境数据源
 @DevRepository
 public interface IPersonMapper extends IMapper<Person> {
+
+    Person selectById(Long id);
 }

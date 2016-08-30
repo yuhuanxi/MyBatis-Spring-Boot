@@ -15,7 +15,7 @@ public interface ICityService {
 
     long deleteById(Long id);
 
-    @Transactional
+    @Transactional // 建议把事物加到 service 层
     long save(City country);
 
     List<City> select(Integer offset, Integer limit);

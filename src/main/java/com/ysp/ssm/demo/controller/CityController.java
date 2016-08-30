@@ -35,13 +35,13 @@ import org.apache.commons.collections4.CollectionUtils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.servlet.ModelAndView;
 
 import java.util.List;
 
@@ -71,6 +71,7 @@ public class CityController extends BaseController {
     private ICityService cityService;
 
     @Autowired
+    @Qualifier("config")
     private Config config;
 
     @RequestMapping
@@ -78,9 +79,10 @@ public class CityController extends BaseController {
 
         LOG.info("application.yml 中的 dev url 值为:{}", url);
         LOG.info("application.yml 中的 servers[1] 值为:{}", server);
-        LOG.info("application.yml 中的 servers list:{}", config.getServers());
         LOG.info("say hello:{}", cityService.say());
-        System.out.println(config.getServers());
+        LOG.info(config.getServers());
+        System.out.println(config.getFirstTask());
+
         long count = cityService.count();
 
         if (count > 0) {
@@ -90,6 +92,17 @@ public class CityController extends BaseController {
             List<City> countryLists = cityService.select(pagingDto.getBeginInt(), pagingDto.getPageSize());
             if (CollectionUtils.isNotEmpty(countryLists))
                 return renderJsonAjaxPageResult(true, ReturnCode.SUCCESS.getCode(), ReturnCode.SUCCESS.getMsg(), countryLists, pagingDto);
+        }
+        return renderJsonFail(ReturnCode.DATA_NOT_FOUND.getCode(), ReturnCode.DATA_NOT_FOUND.getMsg());
+    }
+
+    @RequestMapping(value = "/one")
+    public BaseAjaxResult selectById(Long id) {
+
+        City city = cityService.getById(id);
+
+        if (city != null) {
+            return renderJsonAjaxResult(ReturnCode.SUCCESS.getCode(), ReturnCode.SUCCESS.getMsg(), city);
         }
         return renderJsonFail(ReturnCode.DATA_NOT_FOUND.getCode(), ReturnCode.DATA_NOT_FOUND.getMsg());
     }
@@ -121,13 +134,6 @@ public class CityController extends BaseController {
     @RequestMapping(value = "/add")
     public City add() {
         return new City();
-    }
-
-    @RequestMapping(value = "/view/{id}")
-    public City view(@PathVariable Long id) {
-        ModelAndView result = new ModelAndView();
-        City city = cityService.getById(id);
-        return city;
     }
 
     @RequestMapping(value = "/delete/{id}")

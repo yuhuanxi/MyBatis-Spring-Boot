@@ -17,10 +17,6 @@ import java.util.Map;
 @Configuration  // 因为这里要注册多个 Bean ,用 @Configuration 注解
 public class FirstTask {
 
-    public void print() {
-        System.out.println("doing first task job.......");
-    }
-
     @Autowired
     @Qualifier("firstJobDetailFactoryBean")
 //    @Resource(name = "firstJobDetailFactoryBean")
@@ -31,26 +27,18 @@ public class FirstTask {
     CronTriggerFactoryBean firstCronTriggerFactoryBean;
 
     @Bean
-    public CronTriggerFactoryBean firstCronTriggerFactoryBean() {
-        CronTriggerFactoryBean trigger = new CronTriggerFactoryBean();
-        trigger.setJobDetail(firstJobDetailFactoryBean.getObject());
-        trigger.setStartDelay(3000);
-        // TODO 该表达式可从数据库或者配置文件中获取
-        trigger.setCronExpression("0/5 * * * * ?");
-        return trigger;
+    public JobDetailFactoryBean firstJobDetailFactoryBean() {
+        Map<String, Object> map = new HashMap<>();
+        map.put("firstTask", new FirstTask());
+        return CronTriggerAndJobDetailFactoryBeanGenerator.generatorJobDetail(FirstTaskJob.class, map, true, "firstTask");
     }
 
     @Bean
-    public JobDetailFactoryBean firstJobDetailFactoryBean() {
-        JobDetailFactoryBean jobDetail = new JobDetailFactoryBean();
-        jobDetail.setJobClass(FirstTaskJob.class);
+    public CronTriggerFactoryBean firstCronTriggerFactoryBean() {
+        return CronTriggerAndJobDetailFactoryBeanGenerator.generatorCronTrigger(firstJobDetailFactoryBean.getObject(), 3000, "0/5 * * * * ?");
+    }
 
-        Map<String, Object> map = new HashMap<String, Object>();
-        map.put("ftask", new FirstTask());
-        jobDetail.setJobDataAsMap(map);
-
-        jobDetail.setDurability(true);
-        jobDetail.setName("fuckworld");
-        return jobDetail;
+    public void print() {
+        System.out.println("doing first task job.......");
     }
 }

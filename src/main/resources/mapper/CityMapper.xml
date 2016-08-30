@@ -45,13 +45,13 @@
         );
     </insert>
 
-    <select id="selectById" resultType="City">
+    <select id="selectById" resultMap="CityRm">
         SELECT
         <include refid="fields"/>
         FROM
         city
         <where>
-            <if test="id != null">id = #{id}</if>
+            <if test="value != null">id = #{id}</if>
         </where>
     </select>
 

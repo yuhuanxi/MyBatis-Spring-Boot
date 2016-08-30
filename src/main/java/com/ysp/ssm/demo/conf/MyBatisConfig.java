@@ -54,6 +54,14 @@ import java.sql.SQLException;
 @EnableTransactionManagement
 public class MyBatisConfig implements TransactionManagementConfigurer {
 
+    @Autowired
+    @Qualifier("devDataSource")
+    DataSource devDataSource;   //结合 Qualifier 注解,让其按名称来匹配
+
+    @Autowired
+    @Qualifier("prodDataSource")
+    DataSource prodDataSource;
+
     // 配置数据源
     @Bean(name = "devDataSource")
     @ConfigurationProperties(prefix = "spring.datasource.dev", locations = "classpath:/datasource.yml")
@@ -67,14 +75,6 @@ public class MyBatisConfig implements TransactionManagementConfigurer {
     public DataSource prodDataSource() {
         return DataSourceBuilder.create().build();
     }
-
-    @Autowired
-    @Qualifier("devDataSource")
-    DataSource devDataSource;   //结合 Qualifier 注解,让其按名称来匹配
-
-    @Autowired
-    @Qualifier("prodDataSource")
-    DataSource prodDataSource;
 
     // 配置 sqlSessionFactory
     @Bean(name = "devSqlSessionFactory")

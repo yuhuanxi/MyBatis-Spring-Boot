@@ -34,7 +34,7 @@ import java.util.Map;
 // 使用生产环境数据源,不增加注解则将使用默认的数据源
 public interface ICityMapper extends IMapper<City> {
 
-    City selectById(Integer id);
+    City selectById(Long id);
 
     List<City> selectLimit(Map<String, Object> params);
 

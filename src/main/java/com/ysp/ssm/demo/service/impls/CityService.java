@@ -28,6 +28,9 @@ import com.ysp.ssm.demo.dto.CityDto;
 import com.ysp.ssm.demo.mapper.ICityMapper;
 import com.ysp.ssm.demo.model.City;
 import com.ysp.ssm.demo.service.ICityService;
+import com.ysp.ssm.demo.service.IPersonService;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -42,19 +45,22 @@ import java.util.Map;
 @Service
 public class CityService implements ICityService {
 
+    private static final Logger LOG = LogManager.getLogger(CityService.class);
+
     @Autowired
     private ICityMapper cityMapper;
 
+    @Autowired  // service 层调用 service 比较好,便于后期维护
+    private IPersonService personService;
+
     @Override
     public City getById(Long id) {
-//        return cityMapper.selectById(id);
-//        return cityMapper.selectByPrimaryKey(id);
-        return null;
+        LOG.info(personService.selectById(15L));
+        return cityMapper.selectById(id);
     }
 
     @Override
     public long deleteById(Long id) {
-//        cityMapper.deleteByPrimaryKey(id);
         Map<String, Object> params = new HashMap<>();
         params.put("id", id);
         return cityMapper.delete(params);

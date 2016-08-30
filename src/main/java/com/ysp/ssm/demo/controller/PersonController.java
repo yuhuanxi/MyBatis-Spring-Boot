@@ -7,6 +7,7 @@ import com.ysp.ssm.demo.util.ReturnCode;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -34,4 +35,15 @@ public class PersonController extends BaseController {
         return renderJsonFail();
     }
 
+    @RequestMapping(value = "/{id}")
+    public BaseAjaxResult selectById(@PathVariable("id") Long id) {
+
+        Person person = personService.selectById(id);
+
+        LOG.info("insert city id:{}", person.getId());
+        if (person != null) {
+            return renderJsonAjaxResult(ReturnCode.SUCCESS.getCode(), ReturnCode.SUCCESS.getMsg(), person);
+        }
+        return renderJsonFail(ReturnCode.DATA_NOT_FOUND.getCode(), ReturnCode.DATA_NOT_FOUND.getMsg());
+    }
 }
