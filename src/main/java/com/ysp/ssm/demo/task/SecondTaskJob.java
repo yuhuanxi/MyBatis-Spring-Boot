@@ -8,11 +8,11 @@ import org.quartz.JobExecutionContext;
 import org.quartz.JobExecutionException;
 import org.springframework.scheduling.quartz.QuartzJobBean;
 
-public class HelloworldJob extends QuartzJobBean {
+public class SecondTaskJob extends QuartzJobBean {
 
-    HelloworldTask htask;
+    SecondTask htask;
 
-    public void setHtask(HelloworldTask task) {
+    public void setHtask(SecondTask task) {
         this.htask = task;
     }
 

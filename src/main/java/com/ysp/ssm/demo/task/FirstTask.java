@@ -14,50 +14,39 @@ import org.springframework.scheduling.quartz.JobDetailFactoryBean;
 import java.util.HashMap;
 import java.util.Map;
 
-//@Component
-@Configuration
-public class FuckworldTask {
+@Configuration  // 因为这里要注册多个 Bean ,用 @Configuration 注解
+public class FirstTask {
 
     public void print() {
-        System.out.println("Executing fuckworld job.......");
+        System.out.println("doing first task job.......");
     }
 
     @Autowired
-    @Qualifier("fJobDetailFactoryBean")
-    JobDetailFactoryBean fJobDetailFactoryBean;
+    @Qualifier("firstJobDetailFactoryBean")
+//    @Resource(name = "firstJobDetailFactoryBean")
+            JobDetailFactoryBean firstJobDetailFactoryBean;
 
     @Autowired
-    @Qualifier("fCronTriggerFactoryBean")
-    CronTriggerFactoryBean fCronTriggerFactoryBean;
+    @Qualifier("firstCronTriggerFactoryBean")
+    CronTriggerFactoryBean firstCronTriggerFactoryBean;
 
-    /**
-     * 触发器 2
-     *
-     * @return
-     */
     @Bean
-    public CronTriggerFactoryBean fCronTriggerFactoryBean() {
+    public CronTriggerFactoryBean firstCronTriggerFactoryBean() {
         CronTriggerFactoryBean trigger = new CronTriggerFactoryBean();
-        trigger.setJobDetail(fJobDetailFactoryBean.getObject());
+        trigger.setJobDetail(firstJobDetailFactoryBean.getObject());
         trigger.setStartDelay(3000);
         // TODO 该表达式可从数据库或者配置文件中获取
         trigger.setCronExpression("0/5 * * * * ?");
         return trigger;
     }
 
-    /**
-     * jobDetail 2
-     *
-     * @return
-     */
     @Bean
-    public JobDetailFactoryBean fJobDetailFactoryBean() {
+    public JobDetailFactoryBean firstJobDetailFactoryBean() {
         JobDetailFactoryBean jobDetail = new JobDetailFactoryBean();
-        jobDetail.setJobClass(FuckworldJob.class);
+        jobDetail.setJobClass(FirstTaskJob.class);
 
-        // bring real ftask
         Map<String, Object> map = new HashMap<String, Object>();
-        map.put("ftask", new FuckworldTask());
+        map.put("ftask", new FirstTask());
         jobDetail.setJobDataAsMap(map);
 
         jobDetail.setDurability(true);

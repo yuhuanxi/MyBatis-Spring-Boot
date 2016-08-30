@@ -7,11 +7,11 @@ import org.springframework.scheduling.quartz.QuartzJobBean;
 /**
  * Created by yuhuanxi on 16/8/27.
  */
-public class FuckworldJob extends QuartzJobBean {
+public class FirstTaskJob extends QuartzJobBean {
 
-    FuckworldTask ftask;
+    FirstTask ftask;
 
-    public void setFtask(FuckworldTask ftask) {
+    public void setFtask(FirstTask ftask) {
         this.ftask = ftask;
     }
 

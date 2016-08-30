@@ -14,22 +14,20 @@ import org.springframework.scheduling.quartz.JobDetailFactoryBean;
 import java.util.HashMap;
 import java.util.Map;
 
-//@Component
-@Configuration // TODO 这里不能使用 Component 注解,具体原因还未知
-public class HelloworldTask {
+@Configuration // // 因为这里要注册多个 Bean ,用 @Configuration 注解,而不用 @Component
+public class SecondTask {
 
     public void print() {
-        System.out.println("Executing helloworld job...");
+        System.out.println("doing second task job...");
     }
 
     @Bean(name = "jobDetailFactoryBean")
     public JobDetailFactoryBean jobDetailFactoryBean() {
         JobDetailFactoryBean jobDetail = new JobDetailFactoryBean();
-        jobDetail.setJobClass(HelloworldJob.class);
+        jobDetail.setJobClass(SecondTaskJob.class);
 
-        // bring real htask
         Map<String, Object> map = new HashMap<String, Object>();
-        map.put("htask", new HelloworldTask());
+        map.put("htask", new SecondTask());
         jobDetail.setJobDataAsMap(map);
         jobDetail.setDurability(true);
         jobDetail.setName("helloworld");
