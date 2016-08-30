@@ -1,5 +1,6 @@
 package com.ysp.ssm.demo.task;
 
+import com.ysp.ssm.demo.service.ICityService;
 import org.quartz.JobDetail;
 import org.springframework.scheduling.quartz.CronTriggerFactoryBean;
 import org.springframework.scheduling.quartz.JobDetailFactoryBean;
