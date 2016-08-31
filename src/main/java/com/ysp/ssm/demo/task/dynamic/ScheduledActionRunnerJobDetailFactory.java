@@ -13,6 +13,7 @@ import java.util.Map;
 /**
  * Created by yuhuanxi on 16/8/30.
  */
+@Deprecated
 @Component
 public class ScheduledActionRunnerJobDetailFactory extends JobDetailFactoryBean {
 
