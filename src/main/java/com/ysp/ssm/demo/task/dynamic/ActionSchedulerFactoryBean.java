@@ -7,7 +7,6 @@ import org.springframework.stereotype.Component;
 /**
  * Created by yuhuanxi on 16/8/30.
  */
-@Deprecated
 @Component
 public class ActionSchedulerFactoryBean extends SchedulerFactoryBean {
 

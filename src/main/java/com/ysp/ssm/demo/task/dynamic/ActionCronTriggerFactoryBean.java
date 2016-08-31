@@ -12,7 +12,6 @@ import java.text.ParseException;
 /**
  * Created by yuhuanxi on 16/8/30.
  */
-@Deprecated
 @Component
 public class ActionCronTriggerFactoryBean extends CronTriggerFactoryBean {
 
