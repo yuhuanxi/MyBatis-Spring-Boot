@@ -6,6 +6,7 @@ package com.ysp.ssm.demo.task;
  * Quartz 配置类
  */
 
+import com.ysp.ssm.demo.task.dyna.MyJobFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -20,6 +21,9 @@ public class QuartzConfiguration {
     @Autowired
     private SecondTask secondTask;
 
+    @Autowired
+    public MyJobFactory getMyJobFactory;
+
     /**
      * 注册 scheduled
      *
@@ -29,6 +33,7 @@ public class QuartzConfiguration {
     public SchedulerFactoryBean schedulerFactoryBean() {
         SchedulerFactoryBean scheduler = new SchedulerFactoryBean();
         scheduler.setOverwriteExistingJobs(true);
+        scheduler.setJobFactory(getMyJobFactory);
         scheduler.setTriggers(firstTask.firstCronTriggerFactoryBean.getObject(), secondTask.secondCronTriggerFactoryBean.getObject());
         scheduler.setJobDetails(firstTask.firstJobDetailFactoryBean.getObject(), secondTask.secondJobDetailFactoryBean.getObject());
         return scheduler;

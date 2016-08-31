@@ -28,7 +28,6 @@ public class ScheduledActionRunnerJobDetailFactory extends JobDetailFactoryBean 
         // durability 表示任务完成之后是否依然保留到数据库，默认false ,
         // false的话会报错 Jobs added with no trigger must be durable
         setDurability(true);
-
         setJobDataAsMap(data);
         super.afterPropertiesSet();
     }

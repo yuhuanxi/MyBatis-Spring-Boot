@@ -24,6 +24,7 @@ public class FirstTask {
     private static final Logger LOG = LogManager.getLogger(FirstTask.class);
 
     @Autowired
+    @Qualifier("cityService")
     public ICityService cityService;
 
     @Value("${cron.pattern}")   // 从配置文件中获取 cron 表达式

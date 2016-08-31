@@ -64,4 +64,12 @@ public class City extends BasicModel {
 
     public City() {
     }
+
+    @Override
+    public String toString() {
+        return "City{" +
+                "name='" + name + '\'' +
+                ", state='" + state + '\'' +
+                '}';
+    }
 }

@@ -1,10 +1,8 @@
 package com.ysp.ssm.demo.task;
 
 import com.ysp.ssm.demo.service.ICityService;
-import com.ysp.ssm.demo.task.dynamic.ScheduledActionRunnerJobDetailFactory;
 import org.quartz.JobExecutionContext;
 import org.quartz.JobExecutionException;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.quartz.QuartzJobBean;
 
 /**
@@ -20,6 +18,11 @@ public class FirstTaskJob extends QuartzJobBean {
 
     @Override
     protected void executeInternal(JobExecutionContext jobExecutionContext) throws JobExecutionException {
+
+        // 从中可以获取到 service
+        ICityService cityService = (ICityService) jobExecutionContext.getJobDetail().getJobDataMap().get("cityService");
+        System.out.println(cityService.getById(56L));
+
         firstTask.print();
     }
 
