@@ -14,7 +14,7 @@ import java.util.Date;
  * @description: 基类, 包含插入字段和更新字段, 及ID
  */
 @MappedSuperclass
-public class BasicModel extends BasicGenericModel implements Serializable {
+public class BasicModel implements Serializable {
     /**
      * 主键自增长
      */

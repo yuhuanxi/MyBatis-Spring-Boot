@@ -38,10 +38,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-/**
- * @author liuzh
- * @since 2015-12-19 11:09
- */
 @Service
 public class CityService implements ICityService {
 

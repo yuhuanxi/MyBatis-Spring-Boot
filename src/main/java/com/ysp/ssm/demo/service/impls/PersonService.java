@@ -10,9 +10,6 @@ import org.springframework.stereotype.Service;
 import java.util.HashMap;
 import java.util.Map;
 
-/**
- * Created by yuhuanxi on 16/8/21.
- */
 @Service
 public class PersonService implements IPersonService {
 

@@ -10,6 +10,7 @@ import java.util.Map;
  * @description mapper基础接口
  */
 public interface IMapper<O> {
+
     O selectOne(Map<String, Object> params);
 
     List<O> select(Map<String, Object> params);

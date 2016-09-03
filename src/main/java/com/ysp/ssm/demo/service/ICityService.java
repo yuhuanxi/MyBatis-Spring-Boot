@@ -6,16 +6,14 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
-/**
- * Created by yuhuanxi on 16/8/18.
- */
 public interface ICityService {
 
     City getById(Long id);
 
     long deleteById(Long id);
 
-    @Transactional // 建议把事物加到 service 层
+    // 建议把事物加到 service 层
+    @Transactional
     long save(City country);
 
     List<City> select(Integer offset, Integer limit);

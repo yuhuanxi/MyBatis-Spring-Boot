@@ -1,6 +1,9 @@
 package com.ysp.ssm.demo.task;
 
+import com.ysp.ssm.demo.model.City;
 import com.ysp.ssm.demo.service.ICityService;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.quartz.JobExecutionContext;
 import org.quartz.JobExecutionException;
 import org.springframework.scheduling.quartz.QuartzJobBean;
@@ -13,6 +16,8 @@ import org.springframework.scheduling.quartz.QuartzJobBean;
  */
 public class FirstTaskJob extends QuartzJobBean {
 
+    private static final Logger LOG = LogManager.getLogger(FirstTaskJob.class);
+
     FirstTask firstTask;
 
     public void setFirstTask(FirstTask firstTask) {
@@ -24,7 +29,11 @@ public class FirstTaskJob extends QuartzJobBean {
 
         // 从中可以获取到 service
         ICityService cityService = (ICityService) jobExecutionContext.getJobDetail().getJobDataMap().get("cityService");
-        System.out.println(cityService.getById(56L));
+
+        if (cityService != null) {
+            City city = cityService.getById(56L);
+            LOG.info("city:{}", city);
+        }
 
         firstTask.print();
     }

@@ -105,11 +105,6 @@ public class TipOff implements Serializable {
         private long createdTs;
         private Object plan;
         private Object stage;
-        /**
-         * uid : 61760808
-         * commentId : 148833
-         * content : 牛啊
-         */
 
         private CommentBean comment;
 
