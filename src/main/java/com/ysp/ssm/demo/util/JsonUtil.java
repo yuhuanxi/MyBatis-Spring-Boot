@@ -34,15 +34,6 @@ public class JsonUtil {
         }
     }
 
-//    public static <T> T toObject(JsonNode node, Class<T> className) {
-//        try {
-//            return MAPPER.readValue(node, className);
-//        } catch (IOException e) {
-//            LOG.error(e.getMessage());
-//            return null;
-//        }
-//    }
-
     public static String getJson(Object obj) {
 
         try {

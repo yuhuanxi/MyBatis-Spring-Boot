@@ -52,6 +52,6 @@ public class FirstTask {
     }
 
     public void print() {
-        System.out.println("doing first task job.......");
+        LOG.info("doing first task job.......");
     }
 }

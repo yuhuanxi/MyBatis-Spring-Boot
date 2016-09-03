@@ -27,8 +27,6 @@ public class ActionCronTriggerFactoryBean extends CronTriggerFactoryBean {
     @Override
     public void afterPropertiesSet() throws ParseException {
         setCronExpression(pattern);
-        System.out.println(jobDetailFactory.cityService);
-        System.out.println(getCity());
         setJobDetail(jobDetailFactory.getObject());
         super.afterPropertiesSet();
     }

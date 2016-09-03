@@ -27,9 +27,4 @@ public class Application extends WebMvcConfigurerAdapter {
         LOG.info("application start...");
         SpringApplication.run(Application.class, args);
     }
-
-    @RequestMapping("/")
-    String home() {
-        return new String("Hello World");
-    }
 }

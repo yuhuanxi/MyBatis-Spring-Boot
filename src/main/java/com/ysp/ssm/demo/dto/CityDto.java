@@ -1,11 +1,15 @@
 package com.ysp.ssm.demo.dto;
 
 /**
- * Created by yuhuanxi on 16/8/17.
+ * @author: shipeng.yu
+ * @time: 2016年09月03日 下午10:03
+ * @version: 1.0
+ * @since: 1.0
+ * @description:
  */
 public class CityDto {
 
-    private String addr;
+    private String address;
 
     private String name;
 
@@ -27,11 +31,11 @@ public class CityDto {
         this.state = state;
     }
 
-    public String getAddr() {
-        return addr;
+    public String getAddress() {
+        return address;
     }
 
-    public void setAddr(String addr) {
-        this.addr = addr;
+    public void setAddress(String address) {
+        this.address = address;
     }
 }

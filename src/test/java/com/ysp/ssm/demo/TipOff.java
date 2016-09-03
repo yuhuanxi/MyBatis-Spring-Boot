@@ -7,16 +7,6 @@ import java.util.List;
  * Created by yuhuanxi on 16/8/22.
  */
 public class TipOff implements Serializable {
-    /**
-     * success : true
-     * code : 200
-     * message : 操作正确
-     * results : [{"uid":12345,"type":2,"createdTs":1470914385000,"plan":null,"stage":null,"comment":{"uid":61760808,"commentId":148833,"content":"牛啊"}}]
-     * curPage : 1
-     * pageCount : 136
-     * count : 136
-     * hasRecords : true
-     */
 
     private boolean success;
     private int code;
@@ -25,14 +15,6 @@ public class TipOff implements Serializable {
     private int pageCount;
     private int count;
     private boolean hasRecords;
-    /**
-     * uid : 12345
-     * type : 2
-     * createdTs : 1470914385000
-     * plan : null
-     * stage : null
-     * comment : {"uid":61760808,"commentId":148833,"content":"牛啊"}
-     */
 
     private List<ResultsBean> results;
 

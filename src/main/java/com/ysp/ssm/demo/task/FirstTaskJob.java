@@ -6,7 +6,10 @@ import org.quartz.JobExecutionException;
 import org.springframework.scheduling.quartz.QuartzJobBean;
 
 /**
- * Created by yuhuanxi on 16/8/27.
+ * @author: shipeng.yu
+ * @time: 16/9/3-下午10:03
+ * @version: 1.0
+ * @description: 第一个 JOB
  */
 public class FirstTaskJob extends QuartzJobBean {
 
