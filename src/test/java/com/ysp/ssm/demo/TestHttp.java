@@ -17,9 +17,9 @@ public class TestHttp {
 
     private static final Logger LOG = LogManager.getLogger(TestHttp.class);
 
-    static final String TEST_SERVER_URL = "http://115.29.226.157:9090";
+    static final String TEST_SERVER_URL = "localhost:9090";
 
-    static final String ADMIN_SERVER_URL = "http://123.59.64.180";
+    static final String ADMIN_SERVER_URL = "localhost:9090";
 
     public static void main(String[] args) throws IOException, URISyntaxException {
         asyncTest();
