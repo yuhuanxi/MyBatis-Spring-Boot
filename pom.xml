@@ -171,6 +171,19 @@
             <version>2.2.3</version>
         </dependency>
 
+        <!-- memcached -->
+        <dependency>
+            <groupId>com.google.code.simple-spring-memcached</groupId>
+            <artifactId>simple-spring-memcached</artifactId>
+            <version>3.6.1</version>
+        </dependency>
+
+        <dependency>
+            <groupId>de.flapdoodle.embed</groupId>
+            <artifactId>de.flapdoodle.embed.memcached</artifactId>
+            <version>1.06.4</version>
+        </dependency>
+
     </dependencies>
 
     <build>

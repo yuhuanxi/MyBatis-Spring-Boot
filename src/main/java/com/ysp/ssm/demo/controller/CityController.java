@@ -24,7 +24,8 @@
 
 package com.ysp.ssm.demo.controller;
 
-import com.ysp.ssm.demo.conf.Config;
+import com.google.code.ssm.config.DefaultAddressProvider;
+import com.ysp.ssm.demo.cache.MemcachedManage;
 import com.ysp.ssm.demo.dto.CityDto;
 import com.ysp.ssm.demo.model.City;
 import com.ysp.ssm.demo.service.ICityService;
@@ -34,6 +35,7 @@ import com.ysp.ssm.demo.util.ReturnCode;
 import org.apache.commons.collections4.CollectionUtils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.apache.logging.log4j.core.config.DefaultAdvertiser;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
@@ -71,8 +73,11 @@ public class CityController extends BaseController {
     private ICityService cityService;
 
     @Autowired
-    @Qualifier("config")
-    private Config config;
+    @Qualifier("memcachedManage")
+    private MemcachedManage memcachedManage;
+
+    @Autowired
+    private DefaultAddressProvider defaultAddressProvider;
 
     @RequestMapping
     public BaseAjaxResult getAll(Integer curPage, Integer pageSize) {
@@ -80,9 +85,10 @@ public class CityController extends BaseController {
         LOG.info("application.yml 中的 dev url 值为:{}", url);
         LOG.info("application.yml 中的 servers[1] 值为:{}", server);
         LOG.info("say hello:{}", cityService.say());
-        LOG.info(config.getServers());
-        System.out.println(config.getFirstTask());
-
+        LOG.info("address:{}", memcachedManage.getAddress());
+        LOG.info("port:{}", memcachedManage.getPort());
+        LOG.info("defaultAddressProvider:{}", defaultAddressProvider);
+        System.out.println(defaultAddressProvider.getAddress());
         long count = cityService.count();
 
         if (count > 0) {
