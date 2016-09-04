@@ -41,6 +41,8 @@ import java.util.Map;
 @Service
 public class CityService implements ICityService {
 
+    private static final String NAMESPACE = "com.ysp.ssm.demo.service.impls";
+
     private static final Logger LOG = LogManager.getLogger(CityService.class);
 
     @Autowired

@@ -24,8 +24,10 @@
 
 package com.ysp.ssm.demo.controller;
 
-import com.google.code.ssm.config.DefaultAddressProvider;
-import com.ysp.ssm.demo.cache.MemcachedManage;
+import com.google.code.ssm.Cache;
+import com.google.code.ssm.CacheFactory;
+import com.google.code.ssm.api.format.SerializationType;
+import com.google.code.ssm.providers.CacheException;
 import com.ysp.ssm.demo.dto.CityDto;
 import com.ysp.ssm.demo.model.City;
 import com.ysp.ssm.demo.service.ICityService;
@@ -35,7 +37,6 @@ import com.ysp.ssm.demo.util.ReturnCode;
 import org.apache.commons.collections4.CollectionUtils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import org.apache.logging.log4j.core.config.DefaultAdvertiser;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
@@ -46,6 +47,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
+import java.util.concurrent.TimeoutException;
 
 /**
  * @author liuzh
@@ -56,6 +58,8 @@ import java.util.List;
 public class CityController extends BaseController {
 
     private static final Logger LOG = LogManager.getLogger(CityController.class);
+
+    private static final String NAMESPACE = "com.ysp.ssm.demo.controller";
 
     // 从 application.yml 中获取单个值
     @Value("${environments.dev.url}")
@@ -73,22 +77,15 @@ public class CityController extends BaseController {
     private ICityService cityService;
 
     @Autowired
-    @Qualifier("memcachedManage")
-    private MemcachedManage memcachedManage;
-
-    @Autowired
-    private DefaultAddressProvider defaultAddressProvider;
+    @Qualifier("cacheFactory")
+    private CacheFactory cacheFactory;
 
     @RequestMapping
-    public BaseAjaxResult getAll(Integer curPage, Integer pageSize) {
+    public BaseAjaxResult getAll(Integer curPage, Integer pageSize) throws TimeoutException, CacheException {
 
         LOG.info("application.yml 中的 dev url 值为:{}", url);
         LOG.info("application.yml 中的 servers[1] 值为:{}", server);
-        LOG.info("say hello:{}", cityService.say());
-        LOG.info("address:{}", memcachedManage.getAddress());
-        LOG.info("port:{}", memcachedManage.getPort());
-        LOG.info("defaultAddressProvider:{}", defaultAddressProvider);
-        System.out.println(defaultAddressProvider.getAddress());
+
         long count = cityService.count();
 
         if (count > 0) {
@@ -100,6 +97,64 @@ public class CityController extends BaseController {
                 return renderJsonAjaxPageResult(true, ReturnCode.SUCCESS.getCode(), ReturnCode.SUCCESS.getMsg(), countryLists, pagingDto);
         }
         return renderJsonFail(ReturnCode.DATA_NOT_FOUND.getCode(), ReturnCode.DATA_NOT_FOUND.getMsg());
+    }
+
+    /**
+     * 测试缓存
+     * <p>
+     * TODO 缓存的一些 annotation 无效,例如 @ReadThroughSingleCache
+     *
+     * @return
+     */
+    @RequestMapping(value = "/cache/show")
+    public BaseAjaxResult testCache() {
+
+        Cache cache = cacheFactory.getCache();
+
+        String test = "";
+
+        try {
+            if (cache == null) {
+                cache = cacheFactory.getObject();
+            }
+
+            test = cache.get("test", SerializationType.JAVA);
+            if (test != null) {
+                LOG.info("from cache test:{}", test);
+            } else {
+                test = "Hello World";
+                cache.set("test", 30, test, SerializationType.JAVA);
+                LOG.info("set cache test:{}", test);
+            }
+        } catch (Exception e) {
+            LOG.error(e.getMessage(), e);
+        }
+
+        return renderJsonAjaxResult(ReturnCode.SUCCESS.getCode(), ReturnCode.SUCCESS.getMsg(), test);
+    }
+
+    /**
+     * 移除缓存
+     *
+     * @param key 缓存的 key
+     * @return
+     */
+    @RequestMapping(value = "/cache/delete", method = RequestMethod.DELETE)
+    public BaseAjaxResult removeCache(String key) {
+
+        Cache cache = cacheFactory.getCache();
+
+        try {
+            if (cache == null) {
+                cache = cacheFactory.getObject();
+            }
+            boolean delete = cache.delete(key);
+            LOG.info("delete:{}", delete);
+        } catch (Exception e) {
+            LOG.error(e.getMessage(), e);
+        }
+
+        return renderJsonSuccessed(true, ReturnCode.SUCCESS.getCode(), ReturnCode.SUCCESS.getMsg());
     }
 
     @RequestMapping(value = "/one")

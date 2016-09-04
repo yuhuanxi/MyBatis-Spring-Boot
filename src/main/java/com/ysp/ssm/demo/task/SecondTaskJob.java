@@ -18,7 +18,7 @@ public class SecondTaskJob extends QuartzJobBean {
 
     @Override
     protected void executeInternal(JobExecutionContext context) throws JobExecutionException {
-        secondTask.print();
+//        secondTask.print();
     }
 
 }
