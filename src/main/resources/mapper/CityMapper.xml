@@ -83,4 +83,15 @@
         city
     </select>
 
+    <!-- 删除 -->
+    <delete id="deleteById" parameterType="_long">
+        DELETE FROM
+        <include refid="table"/>
+        <where>
+            <if test="value != null">id = #{id}</if>
+        </where>
+        ;
+    </delete>
+
+
 </mapper>

@@ -30,6 +30,9 @@ public class FirstTask {
     @Value("${cron.pattern}")   // 从配置文件中获取 cron 表达式
     private String pattern;
 
+    @Value("${cron.enable}")
+    private String enable;  // 是否开启任务
+
     @Autowired
     @Qualifier("firstJobDetailFactoryBean")
     JobDetailFactoryBean firstJobDetailFactoryBean;
@@ -43,6 +46,7 @@ public class FirstTask {
         Map<String, Object> map = new HashMap<>();
         map.put("firstTask", new FirstTask());
         map.put("cityService", cityService);
+        map.put("enable", enable);  //将 job 可用性添加到上下文中,以便执行 job 的时候可以获取
         return CronTriggerAndJobDetailFactoryBeanGenerator.generatorJobDetail(FirstTaskJob.class, map, true, "firstTask");
     }
 

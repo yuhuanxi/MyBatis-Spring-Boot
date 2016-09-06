@@ -24,7 +24,9 @@
 
 package com.ysp.ssm.demo.conf;
 
+import com.ysp.ssm.demo.Interceptor.LoginInterceptor;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
 
@@ -40,7 +42,14 @@ public class WebMvcConfig extends WebMvcConfigurerAdapter {
         registry.addResourceHandler("/static/**").addResourceLocations("classpath:/static/");
     }
 
-//    @Override
+    @Override
+    public void addInterceptors(InterceptorRegistry registry) {
+        // 配置登录拦截器
+        registry.addInterceptor(new LoginInterceptor()).addPathPatterns(LoginInterceptor.pathPatterns);
+        super.addInterceptors(registry);
+    }
+
+    //    @Override
 //    public void configureViewResolvers(ViewResolverRegistry registry) {
 //        registry.enableContentNegotiation(new MappingJackson2JsonView());
 //        registry.freeMarker().cache(false);

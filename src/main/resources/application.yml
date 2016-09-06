@@ -20,6 +20,7 @@ my:
        - foo.bar.com
 cron:
   pattern: 0/6 * * * * ?
+  enable: disable
 
 # spring配置
 spring:

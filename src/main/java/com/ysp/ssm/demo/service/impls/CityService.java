@@ -62,21 +62,21 @@ public class CityService implements ICityService {
     public long deleteById(Long id) {
         Map<String, Object> params = new HashMap<>();
         params.put("id", id);
-        return cityMapper.delete(params);
+        return cityMapper.deleteById(id);
     }
 
     @Override
-    public long save(City country) {
-        cityMapper.insert(new City("AA", "AA"));
-        cityMapper.insert(new City("BB", "BB"));
-        cityMapper.insert(new City("CC", "AA"));
-        cityMapper.insert(new City("DD", "AA"));
-        cityMapper.insert(new City("EE", "AA"));
-        cityMapper.insert(new City("FFFFFFFF", "AA"));
-        cityMapper.insert(new City("GG", "AA"));
-        cityMapper.insert(new City("HH", "AA"));
-        cityMapper.insert(new City("JJ", "AA"));
-        return 1;
+    public long save(City city) {
+        return cityMapper.insert(city);
+//        cityMapper.insert(new City("AA", "AA"));
+//        cityMapper.insert(new City("BB", "BB"));
+//        cityMapper.insert(new City("CC", "AA"));
+//        cityMapper.insert(new City("DD", "AA"));
+//        cityMapper.insert(new City("EE", "AA"));
+//        cityMapper.insert(new City("FFFFFFFF", "AA"));
+//        cityMapper.insert(new City("GG", "AA"));
+//        cityMapper.insert(new City("HH", "AA"));
+//        cityMapper.insert(new City("JJ", "AA"));
     }
 
     @Override

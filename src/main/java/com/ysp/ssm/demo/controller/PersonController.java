@@ -4,12 +4,15 @@ import com.ysp.ssm.demo.model.Person;
 import com.ysp.ssm.demo.service.IPersonService;
 import com.ysp.ssm.demo.util.BaseController;
 import com.ysp.ssm.demo.util.ReturnCode;
+import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+
+import javax.servlet.http.HttpServletRequest;
 
 /**
  * @Author: shipeng.yu
@@ -25,6 +28,27 @@ public class PersonController extends BaseController {
 
     @Autowired
     private IPersonService personService;
+
+    /**
+     * 模拟用户登录
+     *
+     * @param username
+     * @param password
+     * @param httpServletRequest
+     * @return
+     */
+    @RequestMapping(value = "/login")
+    public BaseAjaxResult login(String username, String password, HttpServletRequest httpServletRequest) {
+
+        if (StringUtils.isBlank(username) || StringUtils.isBlank(password)) {
+            return renderJsonFail(ReturnCode.PARAMER_NOT_INVALID.getCode(), ReturnCode.PARAMER_NOT_INVALID.getMsg());
+        }
+
+        httpServletRequest.getSession().setAttribute("username", username);
+        httpServletRequest.getSession().setAttribute("password", password);
+
+        return renderJsonSuccessed(true, ReturnCode.SUCCESS.getCode(), ReturnCode.SUCCESS.getMsg());
+    }
 
     @RequestMapping(value = "/new")
     public BaseAjaxResult addCity(String name, Integer age, String address) {

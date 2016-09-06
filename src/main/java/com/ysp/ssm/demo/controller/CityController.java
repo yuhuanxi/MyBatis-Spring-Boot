@@ -180,16 +180,12 @@ public class CityController extends BaseController {
         City city = new City(name, state);
 
         long ret = cityService.save(city);
-        LOG.info("insert city id:{}", city.getId());
+
         if (ret > 0) {
+            LOG.info("insert city id:{}", city.getId());
             return renderJsonSuccessed(true, ReturnCode.SUCCESS.getCode(), ReturnCode.SUCCESS.getMsg());
         }
         return renderJsonFail();
-    }
-
-    @RequestMapping(value = "/add")
-    public City add() {
-        return new City();
     }
 
     @RequestMapping(value = "/delete/{id}")

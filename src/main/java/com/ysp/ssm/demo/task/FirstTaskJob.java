@@ -27,15 +27,19 @@ public class FirstTaskJob extends QuartzJobBean {
     @Override
     protected void executeInternal(JobExecutionContext jobExecutionContext) throws JobExecutionException {
 
-        // 从中可以获取到 service
-        ICityService cityService = (ICityService) jobExecutionContext.getJobDetail().getJobDataMap().get("cityService");
+        String enable = (String) jobExecutionContext.getJobDetail().getJobDataMap().get("enable");
 
-        if (cityService != null) {
-            City city = cityService.getById(56L);
-            LOG.info("city:{}", city);
+        // 启用job
+        if ("enable".equals(enable)) {
+            // 从 jobExecutionContext 获取到 service
+            ICityService cityService = (ICityService) jobExecutionContext.getJobDetail().getJobDataMap().get("cityService");
+
+            if (cityService != null) {
+                City city = cityService.getById(56L);
+                LOG.info("city:{}", city);
+            }
+            firstTask.print();
         }
-
-        firstTask.print();
     }
 
 }

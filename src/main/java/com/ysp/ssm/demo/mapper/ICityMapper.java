@@ -39,4 +39,12 @@ public interface ICityMapper extends IMapper<City> {
     List<City> selectLimit(Map<String, Object> params);
 
     List<CityDto> selectDtoLimit(Map<String, Object> params);
+
+    /**
+     * 通过主键删除
+     *
+     * @param id
+     * @return
+     */
+    long deleteById(Long id);
 }
