@@ -25,7 +25,6 @@
 package com.ysp.ssm.demo.controller;
 
 import com.google.code.ssm.Cache;
-import com.google.code.ssm.CacheFactory;
 import com.google.code.ssm.api.format.SerializationType;
 import com.google.code.ssm.providers.CacheException;
 import com.ysp.ssm.demo.dto.CityDto;
@@ -77,8 +76,8 @@ public class CityController extends BaseController {
     private ICityService cityService;
 
     @Autowired
-    @Qualifier("cacheFactory")
-    private CacheFactory cacheFactory;
+    @Qualifier("cache")
+    private Cache cache;
 
     @RequestMapping
     public BaseAjaxResult getAll(Integer curPage, Integer pageSize) throws TimeoutException, CacheException {
@@ -109,15 +108,9 @@ public class CityController extends BaseController {
     @RequestMapping(value = "/cache/show")
     public BaseAjaxResult testCache() {
 
-        Cache cache = cacheFactory.getCache();
-
         String test = "";
 
         try {
-            if (cache == null) {
-                cache = cacheFactory.getObject();
-            }
-
             test = cache.get("test", SerializationType.JAVA);
             if (test != null) {
                 LOG.info("from cache test:{}", test);
@@ -141,28 +134,30 @@ public class CityController extends BaseController {
      */
     @RequestMapping(value = "/cache/delete", method = RequestMethod.DELETE)
     public BaseAjaxResult removeCache(String key) {
-
-        Cache cache = cacheFactory.getCache();
-
         try {
-            if (cache == null) {
-                cache = cacheFactory.getObject();
-            }
             boolean delete = cache.delete(key);
             LOG.info("delete:{}", delete);
         } catch (Exception e) {
             LOG.error(e.getMessage(), e);
         }
-
         return renderJsonSuccessed(true, ReturnCode.SUCCESS.getCode(), ReturnCode.SUCCESS.getMsg());
     }
 
     @RequestMapping(value = "/one")
     public BaseAjaxResult selectById(Long id) {
 
+        if (id == null || id < 1) {
+            return renderJsonFail(ReturnCode.PARAMER_NOT_INVALID.getCode(), ReturnCode.PARAMER_NOT_INVALID.getMsg());
+        }
         City city = cityService.getById(id);
-
         if (city != null) {
+            try {
+                cache.set("city", 300, city, SerializationType.JAVA);
+            } catch (TimeoutException e) {
+                e.printStackTrace();
+            } catch (CacheException e) {
+                e.printStackTrace();
+            }
             return renderJsonAjaxResult(ReturnCode.SUCCESS.getCode(), ReturnCode.SUCCESS.getMsg(), city);
         }
         return renderJsonFail(ReturnCode.DATA_NOT_FOUND.getCode(), ReturnCode.DATA_NOT_FOUND.getMsg());

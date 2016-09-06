@@ -1,13 +1,12 @@
 package com.ysp.ssm.demo.cache;
 
+import com.google.code.ssm.Cache;
 import com.google.code.ssm.CacheFactory;
 import com.google.code.ssm.config.DefaultAddressProvider;
 import com.google.code.ssm.providers.CacheConfiguration;
 import com.google.code.ssm.providers.xmemcached.MemcacheClientFactoryImpl;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -31,22 +30,9 @@ public class MemcachedManage {
 
     private int port;
 
-    private String add = "localhost:11211";
+    private String addrs = "localhost:11211";
 
-//    @Autowired
-//    public DefaultAddressProvider defaultAddressProvider;
-//
-//    @Autowired
-//    public MemcacheClientFactoryImpl memcacheClientFactory;
-//
-//    @Autowired
-//    public CacheConfiguration cacheConfiguration;
-
-    @Autowired
-    @Qualifier("cacheFactory")
-    public CacheFactory cacheFactory;
-
-    @Bean(name = "cacheFactory")
+    //    @Bean(name = "cacheFactory")
     public CacheFactory cacheFactory() throws Exception {
         CacheFactory cacheFactory = new CacheFactory();
         cacheFactory.setCacheClientFactory(memcacheClientFactory());
@@ -57,10 +43,24 @@ public class MemcachedManage {
         return cacheFactory;
     }
 
+    @Bean(name = "cache")
+    public Cache cache() throws Exception {
+        try {
+            Cache cache = cacheFactory().getCache();
+            if (cache == null) {
+                cache = cacheFactory().getObject();
+            }
+            return cache;
+        } catch (Exception e) {
+            LOG.error(e.getMessage(), e);
+            return null;
+        }
+    }
+
     //    @Bean(name = "defaultAddressProvider")
     public DefaultAddressProvider defaultAddressProvider() {
         DefaultAddressProvider defaultAddressProvider = new DefaultAddressProvider();
-        defaultAddressProvider.setAddress(add);
+        defaultAddressProvider.setAddress(addrs);
         return defaultAddressProvider;
     }
 

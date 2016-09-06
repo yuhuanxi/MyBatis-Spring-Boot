@@ -17,7 +17,7 @@ public enum ReturnCode {
     /**
      *
      */
-    FAIL(574, "内部异常");
+    FAIL(574, "内部异常"), PARAMER_NOT_INVALID(501, "参数不正确");
 
     ReturnCode(int code, String msg) {
         this.code = code;

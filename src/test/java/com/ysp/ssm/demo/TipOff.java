@@ -1,12 +1,11 @@
 package com.ysp.ssm.demo;
 
-import java.io.Serializable;
 import java.util.List;
 
 /**
  * Created by yuhuanxi on 16/8/22.
  */
-public class TipOff implements Serializable {
+public class TipOff {
 
     private boolean success;
     private int code;

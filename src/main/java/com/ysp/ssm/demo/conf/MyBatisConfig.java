@@ -25,6 +25,8 @@
 package com.ysp.ssm.demo.conf;
 
 import org.apache.ibatis.session.SqlSessionFactory;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.mybatis.spring.SqlSessionFactoryBean;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -53,6 +55,8 @@ import java.sql.SQLException;
 @Configuration
 @EnableTransactionManagement
 public class MyBatisConfig implements TransactionManagementConfigurer {
+
+    private static final Logger LOG = LogManager.getLogger(MyBatisConfig.class);
 
     @Autowired
     @Qualifier("devDataSource")
@@ -87,7 +91,7 @@ public class MyBatisConfig implements TransactionManagementConfigurer {
             bean.setMapperLocations(resolver.getResources("classpath:mapper/*.xml"));
             return bean.getObject();
         } catch (Exception e) {
-            e.printStackTrace();
+            LOG.error(e.getMessage(), e);
             throw new RuntimeException(e);
         }
     }
@@ -102,7 +106,7 @@ public class MyBatisConfig implements TransactionManagementConfigurer {
             bean.setMapperLocations(resolver.getResources("classpath:mapper/*.xml"));
             return bean.getObject();
         } catch (Exception e) {
-            e.printStackTrace();
+            LOG.error(e.getMessage(), e);
             throw new RuntimeException(e);
         }
     }

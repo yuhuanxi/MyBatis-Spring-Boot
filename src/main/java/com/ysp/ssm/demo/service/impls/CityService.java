@@ -24,6 +24,7 @@
 
 package com.ysp.ssm.demo.service.impls;
 
+import com.google.code.ssm.api.ReadThroughSingleCache;
 import com.ysp.ssm.demo.dto.CityDto;
 import com.ysp.ssm.demo.mapper.ICityMapper;
 import com.ysp.ssm.demo.model.City;
@@ -41,8 +42,6 @@ import java.util.Map;
 @Service
 public class CityService implements ICityService {
 
-    private static final String NAMESPACE = "com.ysp.ssm.demo.service.impls";
-
     private static final Logger LOG = LogManager.getLogger(CityService.class);
 
     @Autowired
@@ -52,7 +51,9 @@ public class CityService implements ICityService {
     private IPersonService personService;
 
     @Override
+    @ReadThroughSingleCache(namespace = "demo", expiration = 30000)
     public City getById(Long id) {
+        System.out.println("没有缓存命中");
         LOG.info(personService.selectById(15L));
         return cityMapper.selectById(id);
     }

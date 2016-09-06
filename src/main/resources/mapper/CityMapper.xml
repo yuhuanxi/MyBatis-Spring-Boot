@@ -53,6 +53,7 @@
         <where>
             <if test="value != null">id = #{id}</if>
         </where>
+        LIMIT 0,1;
     </select>
 
     <select id="selectLimit" resultMap="CityRm" parameterType="map">
