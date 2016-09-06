@@ -20,9 +20,6 @@ public class QuartzConfiguration {
     @Autowired
     private SecondTask secondTask;
 
-    @Autowired
-//    public MyJobFactory getMyJobFactory;
-
     /**
      * 注册 scheduled
      *
@@ -32,7 +29,6 @@ public class QuartzConfiguration {
     public SchedulerFactoryBean schedulerFactoryBean() {
         SchedulerFactoryBean scheduler = new SchedulerFactoryBean();
         scheduler.setOverwriteExistingJobs(true);
-//        scheduler.setJobFactory(getMyJobFactory);
         scheduler.setTriggers(firstTask.firstCronTriggerFactoryBean.getObject(), secondTask.secondCronTriggerFactoryBean.getObject());
         scheduler.setJobDetails(firstTask.firstJobDetailFactoryBean.getObject(), secondTask.secondJobDetailFactoryBean.getObject());
         return scheduler;
