@@ -31,11 +31,11 @@ public class FirstTaskJob extends QuartzJobBean {
         ICityService cityService = (ICityService) jobExecutionContext.getJobDetail().getJobDataMap().get("cityService");
 
         if (cityService != null) {
-//            City city = cityService.getById(56L);
-//            LOG.info("city:{}", city);
+            City city = cityService.getById(56L);
+            LOG.info("city:{}", city);
         }
 
-//        firstTask.print();
+        firstTask.print();
     }
 
 }
