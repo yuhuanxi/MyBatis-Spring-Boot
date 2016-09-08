@@ -71,9 +71,6 @@ public class CityController extends BaseController {
     @Value("${my.servers[1]}")
     private String server;
 
-//    @Autowired
-//    private JavaMailSender mailSender;
-
     @Autowired
     @Qualifier("javaMailSender")
     JavaMailSender javaMailSender;
