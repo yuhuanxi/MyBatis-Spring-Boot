@@ -39,6 +39,8 @@ import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.mail.SimpleMailMessage;
+import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -68,6 +70,25 @@ public class CityController extends BaseController {
     // @Value("${my.servers[0]}")
     @Value("${my.servers[1]}")
     private String server;
+
+//    @Autowired
+//    private JavaMailSender mailSender;
+
+    @Autowired
+    @Qualifier("javaMailSender")
+    JavaMailSender javaMailSender;
+
+    @RequestMapping(value = "/mail")
+    public void sendSimpleMail() throws Exception {
+        SimpleMailMessage message = new SimpleMailMessage();
+        message.setFrom("335747019@qq.com");
+        message.setTo("adobe1874@126.com");
+        message.setSubject("主题：简单邮件");
+        message.setText("测试邮件内容");
+        System.out.println(javaMailSender);
+        javaMailSender.send(message);
+        System.out.println("send success...");
+    }
 
     // 这里使用 @Resource也能达到同样效果,@AutoWired 为 Spring 提供的注解,默认按 type 装配
     // @Resource 默认按 name 装配
