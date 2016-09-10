@@ -28,6 +28,7 @@ import com.google.code.ssm.Cache;
 import com.google.code.ssm.api.format.SerializationType;
 import com.google.code.ssm.providers.CacheException;
 import com.ysp.ssm.demo.dto.CityDto;
+import com.ysp.ssm.demo.mail.MailUtil;
 import com.ysp.ssm.demo.model.City;
 import com.ysp.ssm.demo.service.ICityService;
 import com.ysp.ssm.demo.util.BaseController;
@@ -39,7 +40,6 @@ import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -60,8 +60,6 @@ public class CityController extends BaseController {
 
     private static final Logger LOG = LogManager.getLogger(CityController.class);
 
-    private static final String NAMESPACE = "com.ysp.ssm.demo.controller";
-
     // 从 application.yml 中获取单个值
     @Value("${environments.dev.url}")
     private String url;
@@ -75,16 +73,14 @@ public class CityController extends BaseController {
     @Qualifier("javaMailSender")
     JavaMailSender javaMailSender;
 
+    /**
+     * 发送简单邮件
+     *
+     * @throws Exception
+     */
     @RequestMapping(value = "/mail")
     public void sendSimpleMail() throws Exception {
-        SimpleMailMessage message = new SimpleMailMessage();
-        message.setFrom("335747019@qq.com");
-        message.setTo("adobe1874@126.com");
-        message.setSubject("主题：简单邮件");
-        message.setText("测试邮件内容");
-        System.out.println(javaMailSender);
-        javaMailSender.send(message);
-        System.out.println("send success...");
+        MailUtil.sendSimpleMail(javaMailSender);
     }
 
     // 这里使用 @Resource也能达到同样效果,@AutoWired 为 Spring 提供的注解,默认按 type 装配
@@ -171,9 +167,7 @@ public class CityController extends BaseController {
         if (city != null) {
             try {
                 cache.set("city", 300, city, SerializationType.JAVA);
-            } catch (TimeoutException e) {
-                e.printStackTrace();
-            } catch (CacheException e) {
+            } catch (TimeoutException | CacheException e) {
                 e.printStackTrace();
             }
             return renderJsonAjaxResult(ReturnCode.SUCCESS.getCode(), ReturnCode.SUCCESS.getMsg(), city);
