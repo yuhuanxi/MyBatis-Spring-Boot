@@ -88,11 +88,11 @@ public class CityController extends BaseController {
     JavaMailSender javaMailSender;
 
     /**
-     * 发送简单邮件
+     * 发送邮件
      *
      * @throws Exception
      */
-    @RequestMapping(value = "/mail")
+    @RequestMapping(value = "/mail", method = RequestMethod.POST)
     public void sendSimpleMail() throws Exception {
         MailUtil.sendSimpleMail(javaMailSender);
         MailUtil.sendAttachmentsMail(javaMailSender);
@@ -203,7 +203,7 @@ public class CityController extends BaseController {
         return renderJsonAjaxPageResult(true, ReturnCode.SUCCESS.getCode(), ReturnCode.SUCCESS.getMsg(), countryList, pagingDto);
     }
 
-    @RequestMapping(value = "/new")
+    @RequestMapping(value = "/new", method = RequestMethod.POST)
     public BaseAjaxResult addCity(String name, String state) {
 
         City city = new City(name, state);

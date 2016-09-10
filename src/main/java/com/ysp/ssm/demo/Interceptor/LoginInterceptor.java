@@ -35,6 +35,7 @@ public class LoginInterceptor extends HandlerInterceptorAdapter {
 
         // TODO 获取被拦截的请求方法名,将来可能会有作用,先记下来
         HandlerMethod handlerMethod = (HandlerMethod) handler;
+
         LOG.info("request method:{}", handlerMethod.getMethod());
 
         if ("yushipeng".equals(username) && "123456".equals(password)) {
