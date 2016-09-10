@@ -46,6 +46,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.servlet.ModelAndView;
 
 import java.util.List;
 import java.util.concurrent.TimeoutException;
@@ -59,6 +60,19 @@ import java.util.concurrent.TimeoutException;
 public class CityController extends BaseController {
 
     private static final Logger LOG = LogManager.getLogger(CityController.class);
+
+    /**
+     * 返回视图
+     *
+     * @return
+     */
+    @RequestMapping("/user")
+    public ModelAndView index() {
+        // 默认为templates 下的视图,user.html其中html可以省略
+        ModelAndView mav = new ModelAndView("/user/user");
+        mav.addObject("user", "shipeng.yu");
+        return mav;
+    }
 
     // 从 application.yml 中获取单个值
     @Value("${environments.dev.url}")
@@ -81,6 +95,9 @@ public class CityController extends BaseController {
     @RequestMapping(value = "/mail")
     public void sendSimpleMail() throws Exception {
         MailUtil.sendSimpleMail(javaMailSender);
+        MailUtil.sendAttachmentsMail(javaMailSender);
+        MailUtil.sendInlineMail(javaMailSender);
+        MailUtil.sendTemplateMail(javaMailSender);
     }
 
     // 这里使用 @Resource也能达到同样效果,@AutoWired 为 Spring 提供的注解,默认按 type 装配

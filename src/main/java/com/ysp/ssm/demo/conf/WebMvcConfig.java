@@ -31,8 +31,11 @@ import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
 
 /**
- * @author liuzh_3nofxnp
- * @since 2015-12-19 16:16
+ * @author: shipeng.yu
+ * @time: 2016年09月07日 上午2:02
+ * @version: 1.0
+ * @since: 1.0
+ * @description: Web Config 配置类
  */
 @Configuration
 public class WebMvcConfig extends WebMvcConfigurerAdapter {

@@ -50,7 +50,8 @@ public class LoginInterceptor extends HandlerInterceptorAdapter {
 
         LOG.info("用户未登录,发送邮件提醒");
 
-        MailUtil.sendSimpleMail(javaMailSender);
+//        MailUtil.sendSimpleMail(javaMailSender);
+        MailUtil.sendAttachmentsMail(javaMailSender);
         // 转发到登录页面,这里转发到城市列表
         response.sendRedirect("/cities");
         return false;
