@@ -65,8 +65,8 @@ public class MailUtil {
         helper.setSubject("主题：有附件");
         helper.setText("有附件的邮件");
 
-        FileSystemResource file = new FileSystemResource(new File("/Users/yuhuanxi/微云同步盘/MyBatis-Spring-Boot/src/main/resources/static/img/avatar1.jpg"));
-        FileSystemResource file1 = new FileSystemResource(new File("/Users/yuhuanxi/微云同步盘/MyBatis-Spring-Boot/src/main/resources/static/img/avatar2.jpg"));
+        FileSystemResource file = new FileSystemResource(new File("/Users/yuhuanxi/Program/framework/MyBatis-Spring-Boot/src/main/resources/static/img/avatar1.jpg"));
+        FileSystemResource file1 = new FileSystemResource(new File("/Users/yuhuanxi/Program/framework/MyBatis-Spring-Boot/src/main/resources/static/img/avatar2.jpg"));
 
         helper.addAttachment("附件-1.jpg", file);
         helper.addAttachment("附件-2.jpg", file1);
@@ -91,7 +91,7 @@ public class MailUtil {
         helper.setSubject("主题：嵌入静态资源");
         helper.setText("<html><body><img src=\"cid:doubi\" ></body></html>", true);
 
-        FileSystemResource file = new FileSystemResource(new File("/Users/yuhuanxi/微云同步盘/MyBatis-Spring-Boot/src/main/resources/static/img/avatar2.jpg"));
+        FileSystemResource file = new FileSystemResource(new File("/Users/yuhuanxi/Program/framework/MyBatis-Spring-Boot/src/main/resources/static/img/avatar1.jpg"));
         helper.addInline("doubi", file); // addInline函数中资源名称doubi需要与正文中cid:doubi对应起来
 
         javaMailSender.send(mimeMessage);
