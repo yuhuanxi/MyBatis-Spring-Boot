@@ -43,15 +43,3 @@ spring:
                 dialect: org.hibernate.dialect.MySQL5Dialect
     output:
         ansi: enabled
-
-    mail:
-        host: smtp.qq.com
-        username: 335747019@qq.com
-        password: adobe1874
-        properties:
-          mail:
-            smtp:
-              auth: true
-              starttls:
-                enable: true
-                required: true
