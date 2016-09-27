@@ -1,5 +1,6 @@
 package com.ysp.ssm.demo.aop;
 
+import com.ysp.ssm.demo.util.BaseController;
 import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.annotation.AfterReturning;
 import org.aspectj.lang.annotation.Aspect;
@@ -55,7 +56,8 @@ public class WebLogAspect {
     @AfterReturning(returning = "ret", pointcut = "webLog()")
     public void doAfterReturning(Object ret) throws Throwable {
         // 处理完请求，返回内容
-        logger.info("RESPONSE : " + ret);
+        BaseController.AjaxPageResult ajaxPageResult = (BaseController.AjaxPageResult) ret;
+        logger.info("RESPONSE : " + ((BaseController.AjaxPageResult) ret).getCode());
         logger.info("SPEND TIME : " + (System.currentTimeMillis() - startTime.get()));
     }
 }
